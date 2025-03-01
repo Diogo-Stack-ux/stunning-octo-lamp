@@ -4,35 +4,26 @@ import { addClientes } from '@/lib/clientes/clientes'
 import { useState } from 'react'
 
 export default function Page() {
-  const [primeiro_nome, setPrimeiroNome] = useState('')
-  const [endereco_de_email, setEnderecoDeEmail] = useState('')
-  const [endereco, setEndereco] = useState('')
-  const [data_de_nascimento, setDataDeNascimento] = useState('')
-  const [numero_de_telefone, setNumeroDeTelefone] = useState('')
-  const [cpf, setCpf] = useState('')
+  const [nome, setNome] = useState('')
+  const [autor, setAutor] = useState('')
+  const [assunto, setAssunto] = useState('')
+  const [resumo, setResumo] = useState('')
+  const [data_de_lancamento, setDataDeLancamento] = useState('')
+  const [preco_sugerido, setPrecoSugerido] = useState('')
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    await addClientes(
-      primeiro_nome,
-      endereco_de_email,
-      endereco,
-      data_de_nascimento,
-      numero_de_telefone
-    )
+    // await addClientes(nome, nome_do_pai, endereco, data_de_nascimento, comum,preco_sugerido)
   }
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">Esta é a página do cliente</h1>
+      <h1 className="text-2xl font-bold">LIVROS E APOSTILAS</h1>
       <form onSubmit={handleSubmit}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
             <h2 className="text-base font-semibold text-gray-900"></h2>
-            <p className="mt-1 text-sm text-gray-600">
-              Use um endereço permanente onde você possa receber
-              correspondência.
-            </p>
+            <p className="mt-1 text-sm text-gray-600">MATERIAL DE ESTUDOS.</p>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-3">
@@ -40,14 +31,14 @@ export default function Page() {
                   htmlFor="first-name"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  Primeiro Nome
+                  Nome
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
-                    id="first-name"
-                    value={primeiro_nome}
-                    onChange={(event) => setPrimeiroNome(event.target.value)}
+                    id="name"
+                    value={nome}
+                    onChange={(event) => setNome(event.target.value)}
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
@@ -55,17 +46,17 @@ export default function Page() {
 
               <div className="sm:col-span-4">
                 <label
-                  htmlFor="email"
+                  htmlFor="autor"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  Endereço de email
+                  Autor
                 </label>
                 <div className="mt-2">
                   <input
-                    id="email"
-                    value={endereco_de_email}
-                    onChange={(event) => setEnderecoDeEmail(event.target.value)}
-                    type="email"
+                    id="autor"
+                    value={autor}
+                    onChange={(event) => setAutor(event.target.value)}
+                    type="text"
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
@@ -73,17 +64,17 @@ export default function Page() {
 
               <div className="col-span-full">
                 <label
-                  htmlFor="endereco"
+                  htmlFor="assunto"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  Endereço
+                  Assunto
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
-                    id="endereco"
-                    value={endereco}
-                    onChange={(event) => setEndereco(event.target.value)}
+                    id="assunto"
+                    value={assunto}
+                    onChange={(event) => setAssunto(event.target.value)}
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
@@ -91,57 +82,53 @@ export default function Page() {
 
               <div className="sm:col-span-2">
                 <label
-                  htmlFor="data_nascimento"
+                  htmlFor="resumo"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  Data de nascimento
+                  resumo
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    id="resumo"
+                    value={resumo}
+                    onChange={(event) => setResumo(event.target.value)}
+                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-2">
+                <label
+                  htmlFor="data_de_lancamento"
+                  className="block text-sm font-medium text-gray-900"
+                >
+                  Data de lançamento
                 </label>
                 <div className="mt-2">
                   <input
                     type="date"
-                    id="data_nascimento"
-                    value={data_de_nascimento}
+                    id="data_de_lancamento"
+                    value={data_de_lancamento}
                     onChange={(event) =>
-                      setDataDeNascimento(event.target.value)
+                      setDataDeLancamento(event.target.value)
                     }
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
               </div>
-
               <div className="sm:col-span-2">
                 <label
-                  htmlFor="telefone"
+                  htmlFor="preco_sugerido"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  Número de telefone
+                  preço sugerido
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
-                    id="telefone"
-                    value={numero_de_telefone}
-                    onChange={(event) =>
-                      setNumeroDeTelefone(event.target.value)
-                    }
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="cpf"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  CPF
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="cpf"
-                    value={cpf}
-                    onChange={(event) => setCpf(event.target.value)}
+                    id="data_de_lancamento"
+                    value={preco_sugerido}
+                    onChange={(event) => setPrecoSugerido(event.target.value)}
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>

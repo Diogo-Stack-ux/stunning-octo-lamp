@@ -52,7 +52,7 @@ export default function RootLayout({
                     <svg
                       className="w-5 h-5 mr-3"
                       fill="none"
-                      stroke="blue" // Altere para a cor desejada"
+                      stroke="black" // Altere para a cor desejada"
                       strokeWidth="2"
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
@@ -64,6 +64,404 @@ export default function RootLayout({
                       ></path>
                     </svg>
                     products
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                    href="carros"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    carros
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="instrutores"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    instrutores
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                    href="alunos"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    alunos
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="materias"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    materias
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="livros"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    livros
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="filmes"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    filmes
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="pneus"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    pneus
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="instrumentos"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    instrumentos
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="computadores"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    Computadores
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="casas"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    Casas
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="apartamentos"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    Apartamentos
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="casas-de-oracao"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    Casas de oração
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="hinos"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    Hinos
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="usuarios"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    usuarios
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="curriculos"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    curriculos
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="animais"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    animais
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="escolas"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    escolas
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="professores"
+                    className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-3"
+                      fill="none"
+                      stroke="black" // Altere para a cor desejada"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14M12 5v14"
+                      ></path>
+                    </svg>
+                    professores
                   </a>
                 </li>
               </ul>

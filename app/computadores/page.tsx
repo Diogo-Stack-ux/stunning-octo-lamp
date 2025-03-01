@@ -4,50 +4,44 @@ import { addClientes } from '@/lib/clientes/clientes'
 import { useState } from 'react'
 
 export default function Page() {
-  const [primeiro_nome, setPrimeiroNome] = useState('')
-  const [endereco_de_email, setEnderecoDeEmail] = useState('')
-  const [endereco, setEndereco] = useState('')
-  const [data_de_nascimento, setDataDeNascimento] = useState('')
-  const [numero_de_telefone, setNumeroDeTelefone] = useState('')
-  const [cpf, setCpf] = useState('')
+  const [descricao, setDescricao] = useState('')
+  const [cpu, setCpu] = useState('')
+  const [memoria, setMemoria] = useState('')
+  const [placa_de_video, setPlacaDeVideo] = useState('')
+  const [placa_mae, setPlacaMae] = useState('')
+  const [fonte, setfonte] = useState('')
+  const [Armazenamento, setArmazenamento] = useState('')
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    await addClientes(
-      primeiro_nome,
-      endereco_de_email,
-      endereco,
-      data_de_nascimento,
-      numero_de_telefone
-    )
+    // await addClientes(nome, nome_do_pai, endereco, data_de_nascimento, comum)
   }
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">Esta é a página do cliente</h1>
+      <h1 className="text-2xl font-bold">computadores</h1>
       <form onSubmit={handleSubmit}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
             <h2 className="text-base font-semibold text-gray-900"></h2>
             <p className="mt-1 text-sm text-gray-600">
-              Use um endereço permanente onde você possa receber
-              correspondência.
+              notbooks, e computadores.
             </p>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-3">
                 <label
-                  htmlFor="first-name"
+                  htmlFor="descricao"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  Primeiro Nome
+                  Descricao
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
-                    id="first-name"
-                    value={primeiro_nome}
-                    onChange={(event) => setPrimeiroNome(event.target.value)}
+                    id="descricao"
+                    value={descricao}
+                    onChange={(event) => setDescricao(event.target.value)}
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
@@ -55,17 +49,17 @@ export default function Page() {
 
               <div className="sm:col-span-4">
                 <label
-                  htmlFor="email"
+                  htmlFor="cpu"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  Endereço de email
+                  cpu
                 </label>
                 <div className="mt-2">
                   <input
-                    id="email"
-                    value={endereco_de_email}
-                    onChange={(event) => setEnderecoDeEmail(event.target.value)}
-                    type="email"
+                    id="cpu"
+                    value={cpu}
+                    onChange={(event) => setCpu(event.target.value)}
+                    type="text"
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
@@ -73,17 +67,17 @@ export default function Page() {
 
               <div className="col-span-full">
                 <label
-                  htmlFor="endereco"
+                  htmlFor="memoria"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  Endereço
+                  memoria
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
-                    id="endereco"
-                    value={endereco}
-                    onChange={(event) => setEndereco(event.target.value)}
+                    id="memoria"
+                    value={memoria}
+                    onChange={(event) => setMemoria(event.target.value)}
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
@@ -91,57 +85,68 @@ export default function Page() {
 
               <div className="sm:col-span-2">
                 <label
-                  htmlFor="data_nascimento"
+                  htmlFor="placa_de_video"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  Data de nascimento
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="date"
-                    id="data_nascimento"
-                    value={data_de_nascimento}
-                    onChange={(event) =>
-                      setDataDeNascimento(event.target.value)
-                    }
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="telefone"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Número de telefone
+                  Placa de video
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
-                    id="telefone"
-                    value={numero_de_telefone}
-                    onChange={(event) =>
-                      setNumeroDeTelefone(event.target.value)
-                    }
+                    id="placa_de_video"
+                    value={placa_de_video}
+                    onChange={(event) => setPlacaDeVideo(event.target.value)}
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
               </div>
-
               <div className="sm:col-span-2">
                 <label
-                  htmlFor="cpf"
+                  htmlFor="placa_mae"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  CPF
+                  placa mae
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
-                    id="cpf"
-                    value={cpf}
-                    onChange={(event) => setCpf(event.target.value)}
+                    id="placa_mae"
+                    value={placa_mae}
+                    onChange={(event) => setPlacaMae(event.target.value)}
+                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-2">
+                <label
+                  htmlFor="fonte"
+                  className="block text-sm font-medium text-gray-900"
+                >
+                  Fonte
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    id="fonte"
+                    value={fonte}
+                    onChange={(event) => setfonte(event.target.value)}
+                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-2">
+                <label
+                  htmlFor="armazenamento"
+                  className="block text-sm font-medium text-gray-900"
+                >
+                  Armazenamento
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    id="armazenamento"
+                    value={Armazenamento}
+                    onChange={(event) => setArmazenamento(event.target.value)}
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>

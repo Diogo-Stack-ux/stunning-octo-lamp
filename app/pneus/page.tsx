@@ -4,34 +4,27 @@ import { addClientes } from '@/lib/clientes/clientes'
 import { useState } from 'react'
 
 export default function Page() {
-  const [primeiro_nome, setPrimeiroNome] = useState('')
-  const [endereco_de_email, setEnderecoDeEmail] = useState('')
-  const [endereco, setEndereco] = useState('')
-  const [data_de_nascimento, setDataDeNascimento] = useState('')
-  const [numero_de_telefone, setNumeroDeTelefone] = useState('')
-  const [cpf, setCpf] = useState('')
+  const [marca, setMarca] = useState('')
+  const [modelo, setModelo] = useState('')
+  const [largura, setLargura] = useState('')
+  const [raio, setRaio] = useState('')
+  const [especura, setEspecura] = useState('')
+  const [carga_maxima, setCargaMaxima] = useState('')
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    await addClientes(
-      primeiro_nome,
-      endereco_de_email,
-      endereco,
-      data_de_nascimento,
-      numero_de_telefone
-    )
+    // await addClientes(nome, nome_do_pai, endereco, data_de_nascimento, comum)
   }
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">Esta é a página do cliente</h1>
+      <h1 className="text-2xl font-bold">PNEUS</h1>
       <form onSubmit={handleSubmit}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
             <h2 className="text-base font-semibold text-gray-900"></h2>
             <p className="mt-1 text-sm text-gray-600">
-              Use um endereço permanente onde você possa receber
-              correspondência.
+              AS MELHORS MARCAS ESTÃO AQUI.
             </p>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -40,14 +33,14 @@ export default function Page() {
                   htmlFor="first-name"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  Primeiro Nome
+                  MARCA
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
-                    id="first-name"
-                    value={primeiro_nome}
-                    onChange={(event) => setPrimeiroNome(event.target.value)}
+                    id="name"
+                    value={marca}
+                    onChange={(event) => setMarca(event.target.value)}
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
@@ -55,17 +48,17 @@ export default function Page() {
 
               <div className="sm:col-span-4">
                 <label
-                  htmlFor="email"
+                  htmlFor="modelo"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  Endereço de email
+                  Modelo
                 </label>
                 <div className="mt-2">
                   <input
-                    id="email"
-                    value={endereco_de_email}
-                    onChange={(event) => setEnderecoDeEmail(event.target.value)}
-                    type="email"
+                    id="modelo"
+                    value={modelo}
+                    onChange={(event) => setModelo(event.target.value)}
+                    type="text"
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
@@ -73,17 +66,17 @@ export default function Page() {
 
               <div className="col-span-full">
                 <label
-                  htmlFor="endereco"
+                  htmlFor="largura"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  Endereço
+                  largura
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
-                    id="endereco"
-                    value={endereco}
-                    onChange={(event) => setEndereco(event.target.value)}
+                    id="largura"
+                    value={largura}
+                    onChange={(event) => setLargura(event.target.value)}
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
@@ -91,57 +84,51 @@ export default function Page() {
 
               <div className="sm:col-span-2">
                 <label
-                  htmlFor="data_nascimento"
+                  htmlFor="raio"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  Data de nascimento
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="date"
-                    id="data_nascimento"
-                    value={data_de_nascimento}
-                    onChange={(event) =>
-                      setDataDeNascimento(event.target.value)
-                    }
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="telefone"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Número de telefone
+                  Raio
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
-                    id="telefone"
-                    value={numero_de_telefone}
-                    onChange={(event) =>
-                      setNumeroDeTelefone(event.target.value)
-                    }
+                    id="raio"
+                    value={raio}
+                    onChange={(event) => setRaio(event.target.value)}
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
               </div>
-
               <div className="sm:col-span-2">
                 <label
-                  htmlFor="cpf"
+                  htmlFor="especura"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  CPF
+                  especura
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
-                    id="cpf"
-                    value={cpf}
-                    onChange={(event) => setCpf(event.target.value)}
+                    id=""
+                    value={especura}
+                    onChange={(event) => setEspecura(event.target.value)}
+                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-2">
+                <label
+                  htmlFor="carga_maxima"
+                  className="block text-sm font-medium text-gray-900"
+                >
+                  carga maxima
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    id="especura"
+                    value={carga_maxima}
+                    onChange={(event) => setCargaMaxima(event.target.value)}
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
