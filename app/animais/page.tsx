@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { addAnimais } from '@/lib/animais/animais'
 
 export default function Page() {
   const [nome, setNome] = useState('')
@@ -10,6 +11,7 @@ export default function Page() {
 
   const handleSubmit = (event: any) => {
     event.preventDefault()
+    addAnimais(nome, nomeCientifico, especie, grupo)
 
     const animal = { nome, nomeCientifico, especie, grupo }
     console.log('Cadastro de Animal:', animal)

@@ -1,18 +1,17 @@
 'use client'
 
 import { useState } from 'react'
+import { addEscola } from '@/lib/escolas/escolas'
 
 export default function Page() {
   const [nome, setNome] = useState('')
   const [endereco, setEndereco] = useState('')
-  const [quantidadeAlunos, setQuantidadeAlunos] = useState(0)
+  const [quantidade_alunos, setQuantidadeAlunos] = useState(0)
   const [telefone, setTelefone] = useState('')
 
   const handleSubmit = (event: any) => {
     event.preventDefault()
-
-    const escola = { nome, endereco, quantidadeAlunos, telefone }
-    console.log('Cadastro de Escola:', escola)
+    addEscola(nome, endereco, quantidade_alunos, telefone)
   }
 
   return (
@@ -78,7 +77,7 @@ export default function Page() {
             <div className="mt-2">
               <input
                 type="number"
-                value={quantidadeAlunos}
+                value={quantidade_alunos}
                 onChange={(event) =>
                   setQuantidadeAlunos(Number(event.target.value))
                 }

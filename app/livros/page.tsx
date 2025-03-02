@@ -1,6 +1,6 @@
 'use client'
 
-import { addClientes } from '@/lib/clientes/clientes'
+import { addLivros } from '@/lib/livros/livros'
 import { useState } from 'react'
 
 export default function Page() {
@@ -13,7 +13,14 @@ export default function Page() {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    // await addClientes(nome, nome_do_pai, endereco, data_de_nascimento, comum,preco_sugerido)
+    await addLivros(
+      nome,
+      autor,
+      assunto,
+      resumo,
+      data_de_lancamento,
+      preco_sugerido
+    )
   }
 
   return (

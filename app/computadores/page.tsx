@@ -1,6 +1,6 @@
 'use client'
 
-import { addClientes } from '@/lib/clientes/clientes'
+import { addComputadores } from '@/lib/computadores/computadores'
 import { useState } from 'react'
 
 export default function Page() {
@@ -14,7 +14,15 @@ export default function Page() {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    // await addClientes(nome, nome_do_pai, endereco, data_de_nascimento, comum)
+    await addComputadores(
+      descricao,
+      cpu,
+      memoria,
+      placa_de_video,
+      placa_mae,
+      fonte,
+      Armazenamento
+    )
   }
 
   return (

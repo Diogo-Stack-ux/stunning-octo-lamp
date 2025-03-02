@@ -1,6 +1,6 @@
 'use client'
 
-import { addClientes } from '@/lib/clientes/clientes'
+import { addInstrumentos } from '@/lib/instrumentos/instrumentos'
 import { useState } from 'react'
 
 export default function Page() {
@@ -9,7 +9,7 @@ export default function Page() {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    // await addClientes(nome, tipo)
+    await addInstrumentos(nome, tipo)
   }
 
   return (

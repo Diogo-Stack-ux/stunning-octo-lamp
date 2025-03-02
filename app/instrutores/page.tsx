@@ -1,18 +1,24 @@
 'use client'
 
-import { addClientes } from '@/lib/clientes/clientes'
+import { addInstrutores } from '@/lib/instrutores/instrutores'
 import { useState } from 'react'
 
 export default function Page() {
-  const [nome, setNome] = useState('nome products')
+  const [nome, setNome] = useState('diogo')
   const [especialidade, setEspecialidade] = useState('')
-  const [endereco, setEndereco] = useState('nome products')
+  const [endereco, setEndereco] = useState('')
   const [data_de_nascimento, setDataDeNascimento] = useState('')
   const [comum, setComum] = useState('')
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    // await addClientes(nome, especialidade, endereco, data_de_nascimento, comum)
+    await addInstrutores(
+      nome,
+      especialidade,
+      endereco,
+      data_de_nascimento,
+      comum
+    )
   }
 
   return (
@@ -47,17 +53,17 @@ export default function Page() {
 
               <div className="sm:col-span-4">
                 <label
-                  htmlFor="email"
+                  htmlFor="especialidade"
                   className="block text-sm font-medium text-gray-900"
                 >
                   especialidade
                 </label>
                 <div className="mt-2">
                   <input
-                    id="email"
+                    id="especialidade"
                     value={especialidade}
                     onChange={(event) => setEspecialidade(event.target.value)}
-                    type="email"
+                    type="text"
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>

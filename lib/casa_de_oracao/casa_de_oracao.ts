@@ -1,6 +1,6 @@
 'use server'
 import { pool } from '../db'
-export async function addCasaOracao(
+export async function addCasadeOracao(
   nome: string,
   endereco: string,
   anciao: string,

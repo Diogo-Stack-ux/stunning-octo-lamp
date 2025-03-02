@@ -1,7 +1,7 @@
 'use server'
 import { pool } from '../db'
-export async function addInstrumento(nome: string, tipo: string) {
+export async function addInstrumentos(nome: string, tipo: string) {
   await pool.query(
-    `insert into instrumento (nome, tipo) values ('${nome}', '${tipo}')`
+    `insert into instrumentos (nome, tipo) values ('${nome}', '${tipo}')`
   )
 }

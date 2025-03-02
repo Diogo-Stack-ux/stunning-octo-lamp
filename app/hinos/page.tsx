@@ -1,6 +1,6 @@
 'use client'
 
-import { addClientes } from '@/lib/clientes/clientes'
+import { addHinos } from '@/lib/hinos/hinos'
 import { useState } from 'react'
 
 export default function Page() {
@@ -10,7 +10,7 @@ export default function Page() {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    // await addClientes(nome, nome_do_pai, endereco, data_de_nascimento, comum)
+    await addHinos(titulo, numero, letra)
   }
 
   return (

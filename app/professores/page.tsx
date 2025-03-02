@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { addProfessor } from '@/lib/professores/professores'
 
 export default function Page() {
   const [nome, setNome] = useState('')
@@ -12,8 +13,7 @@ export default function Page() {
   const handleSubmit = (event: any) => {
     event.preventDefault()
 
-    const professor = { nome, endereco, especialidade, telefone, email }
-    console.log('Cadastro de Professor:', professor) // Aqui você pode enviar os dados para um servidor ou outro processamento
+    addProfessor(nome, endereco, especialidade, telefone, email)
   }
 
   return (

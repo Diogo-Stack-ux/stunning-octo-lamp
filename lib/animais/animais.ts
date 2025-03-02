@@ -1,6 +1,6 @@
 'use server'
 import { pool } from '../db'
-export async function addAnimal(
+export async function addAnimais(
   nome: string,
   nome_cientifico: string,
   especie: string,

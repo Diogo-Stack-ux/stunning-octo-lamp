@@ -312,7 +312,7 @@ export default function RootLayout({
                 </li>
                 <li>
                   <a
-                    href="casas-de-oracao"
+                    href="casa_de_oracao"
                     className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white"
                   >
                     <svg
@@ -329,7 +329,7 @@ export default function RootLayout({
                         d="M5 12h14M12 5v14"
                       ></path>
                     </svg>
-                    Casas de oração
+                    Casa de oração
                   </a>
                 </li>
                 <li>

@@ -1,6 +1,6 @@
 'use server'
 import { pool } from '../db'
-export async function addComputador(
+export async function addComputadores(
   descricao: string,
   cpu: string,
   memoria: string,
@@ -10,6 +10,6 @@ export async function addComputador(
   armazenamento: string
 ) {
   await pool.query(
-    `insert into computador (descricao, cpu, memoria, placa_video, placa_mae, fonte, armazenamento) values ('${descricao}', '${cpu}', '${memoria}', '${placaVideo}', '${placaMae}', '${fonte}', '${armazenamento}')`
+    `insert into computadores (descricao, cpu, memoria, placa_video, placa_mae, fonte, armazenamento) values ('${descricao}', '${cpu}', '${memoria}', '${placaVideo}', '${placaMae}', '${fonte}', '${armazenamento}')`
   )
 }

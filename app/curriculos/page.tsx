@@ -1,6 +1,6 @@
 'use client'
 
-import { addClientes } from '@/lib/clientes/clientes'
+import { addCurriculo } from '@/lib/curriculos/curriculos'
 import { useState } from 'react'
 
 export default function Page() {
@@ -11,18 +11,18 @@ export default function Page() {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    //await addClientes(nome, apelido, endereco_de_email, senhas)
+    await addCurriculo(nome, endereco, endereco_de_email, senha)
   }
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">usuarios</h1>
+      <h1 className="text-2xl font-bold">CURRICULOS</h1>
       <form onSubmit={handleSubmit}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
             <h2 className="text-base font-semibold text-gray-900"></h2>
             <p className="mt-1 text-sm text-gray-600">
-              ESTA É A PAGINA DO USUARIO.
+              ESTA É A PAGINA DO CURRICULO.
             </p>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">

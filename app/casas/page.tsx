@@ -1,295 +1,300 @@
 'use client'
 
 import { useState } from 'react'
+import { addCasas } from '@/lib/casas/casas'
 
 export default function Page() {
-  const [tipo, setTipo] = useState('')
-  const [endereco, setEndereco] = useState('')
-  const [areaTerreno, setAreaTerreno] = useState<number | string>('') // Flexível para número ou string
-  const [areaConstruida, setAreaConstruida] = useState<number | string>('') // Flexível para número ou string
-  const [quartos, setQuartos] = useState<number>(0)
-  const [banheiros, setBanheiros] = useState<number>(0)
-  const [temEdicula, setTemEdicula] = useState(false)
-  const [temChurrasqueira, setTemChurrasqueira] = useState(false)
-  const [temPiscina, setTemPiscina] = useState(false)
-  const [valorCondominio, setValorCondominio] = useState<number>(0)
-  const [precoVenda, setPrecoVenda] = useState<number>(0)
+  const [tipo, setTipo] = useState('tipo')
+  const [endereco, setEndereco] = useState('endereco')
+  const [area_terreno, setAreaTerreno] = useState('areaTerreno')
+  const [area_construida, setAreaConstruida] = useState('areaConstruida')
+  const [quantidade_quartos, setQuartos] = useState('quartos')
+  const [quantidade_banheiros, setBanheiros] = useState('banheiros')
+  const [tem_edicula, setEdicula] = useState('')
+  const [tem_churrasqueira, setChurrasqueira] = useState('')
+  const [tem_piscina, setPiscina] = useState('')
+  const [valor_condominio, setValorCondominio] = useState('valorCondominio')
+  const [preco_venda, setPrecoVenda] = useState('')
 
-  const handleSubmit = (event: any) => {
+  const handlSubmit = (event: any) => {
     event.preventDefault()
-
-    const casa = {
+    addCasas(
       tipo,
       endereco,
-      areaTerreno,
-      areaConstruida,
-      quartos,
-      banheiros,
-      temEdicula,
-      temChurrasqueira,
-      temPiscina,
-      valorCondominio,
-      precoVenda,
-    }
-    console.log('Cadastro de Casa:', casa) // Aqui você pode enviar os dados para um servidor ou outro processamento
+      area_terreno,
+      area_construida,
+      quantidade_quartos,
+      quantidade_banheiros,
+      tem_edicula,
+      tem_churrasqueira,
+      tem_piscina,
+      valor_condominio,
+      preco_venda
+    )
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="space-y-12">
+    <form onSubmit={handlSubmit}>
+      <div className="spcae-y-12">
         <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold text-gray-900">
-            Cadastro de Casa
-          </h2>
-          <p className="mt-1 text-sm text-gray-600">
-            Preencha as informações abaixo para cadastrar a casa.
+          <h2 className="text-base/7 font-semibold text-gray-900">Casas</h2>
+          <p className="mt-1 text-sm/6 text-gray-600">
+            Informaçoes sobre a casa
           </p>
         </div>
 
-        {/* Tipo da Casa */}
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
-              htmlFor="tipo"
-              className="block text-sm font-medium text-gray-900"
+              htmlFor="nome_produto"
+              className="block text-sm/6 font-medium text-gray-900"
             >
-              Tipo
+              tipo
             </label>
             <div className="mt-2">
               <input
                 type="text"
                 value={tipo}
-                onChange={(event) => setTipo(event.target.value)}
+                onChange={(event: any) => setTipo(event.target.value)}
+                name="first-name"
                 id="tipo"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                autoComplete="given-name"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
           </div>
         </div>
 
-        {/* Endereço */}
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
-              htmlFor="endereco"
-              className="block text-sm font-medium text-gray-900"
+              htmlFor="nome_produto"
+              className="block text-sm/6 font-medium text-gray-900"
             >
-              Endereço
+              endereço
             </label>
             <div className="mt-2">
               <input
                 type="text"
                 value={endereco}
-                onChange={(event) => setEndereco(event.target.value)}
+                onChange={(event: any) => setEndereco(event.target.value)}
+                name="first-name"
                 id="endereco"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                autoComplete="given-name"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
           </div>
         </div>
 
-        {/* Área do Terreno */}
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
-              htmlFor="areaTerreno"
-              className="block text-sm font-medium text-gray-900"
+              htmlFor="nome_produto"
+              className="block text-sm/6 font-medium text-gray-900"
             >
-              Área do Terreno (m²)
+              area terreno
             </label>
             <div className="mt-2">
               <input
-                type="number"
-                value={areaTerreno}
-                onChange={(event) => setAreaTerreno(event.target.value)}
-                id="areaTerreno"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                type="text"
+                value={area_terreno}
+                onChange={(event: any) => setAreaTerreno(event.target.value)}
+                name="first-name"
+                id="area_terreno"
+                autoComplete="given-name"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
           </div>
         </div>
 
-        {/* Área Construída */}
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
-              htmlFor="areaConstruida"
-              className="block text-sm font-medium text-gray-900"
+              htmlFor="nome_produto"
+              className="block text-sm/6 font-medium text-gray-900"
             >
-              Área Construída (m²)
+              area construida
             </label>
             <div className="mt-2">
               <input
-                type="number"
-                value={areaConstruida}
-                onChange={(event) => setAreaConstruida(event.target.value)}
+                type="text"
+                value={area_construida}
+                onChange={(event: any) => setAreaConstruida(event.target.value)}
+                name="first-name"
                 id="areaConstruida"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                autoComplete="given-name"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
           </div>
         </div>
 
-        {/* Quantidade de Quartos */}
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
-              htmlFor="quartos"
-              className="block text-sm font-medium text-gray-900"
+              htmlFor="nome_produto"
+              className="block text-sm/6 font-medium text-gray-900"
             >
-              Quantidade de Quartos
+              quartos
             </label>
             <div className="mt-2">
               <input
-                type="number"
-                value={quartos}
-                onChange={(event) => setQuartos(Number(event.target.value))}
+                type="text"
+                value={quantidade_quartos}
+                onChange={(event: any) => setQuartos(event.target.value)}
+                name="first-name"
                 id="quartos"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                autoComplete="given-name"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
           </div>
         </div>
 
-        {/* Quantidade de Banheiros */}
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
-              htmlFor="banheiros"
-              className="block text-sm font-medium text-gray-900"
+              htmlFor="nome_produto"
+              className="block text-sm/6 font-medium text-gray-900"
             >
-              Quantidade de Banheiros
+              Banheiros
             </label>
             <div className="mt-2">
               <input
-                type="number"
-                value={banheiros}
-                onChange={(event) => setBanheiros(Number(event.target.value))}
+                type="text"
+                value={quantidade_banheiros}
+                onChange={(event) => setBanheiros(event.target.value)}
+                name="first-name"
                 id="banheiros"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                autoComplete="given-name"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
           </div>
         </div>
 
-        {/* Tem Edícula */}
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
-              htmlFor="temEdicula"
-              className="block text-sm font-medium text-gray-900"
+              htmlFor="nome_produto"
+              className="block text-sm/6 font-medium text-gray-900"
             >
-              Tem Edícula
+              edicula
             </label>
             <div className="mt-2">
               <input
-                type="checkbox"
-                checked={temEdicula}
-                onChange={() => setTemEdicula(!temEdicula)}
-                id="temEdicula"
-                className="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                type="text"
+                value={tem_edicula}
+                onChange={(event: any) => setEdicula(event.target.value)}
+                name="first-name"
+                id="edeicula"
+                autoComplete="given-name"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
           </div>
         </div>
 
-        {/* Tem Churrasqueira */}
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
-              htmlFor="temChurrasqueira"
-              className="block text-sm font-medium text-gray-900"
+              htmlFor="nome_produto"
+              className="block text-sm/6 font-medium text-gray-900"
             >
-              Tem Churrasqueira
+              churrasqueira
             </label>
             <div className="mt-2">
               <input
-                type="checkbox"
-                checked={temChurrasqueira}
-                onChange={() => setTemChurrasqueira(!temChurrasqueira)}
-                id="temChurrasqueira"
-                className="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                type="text"
+                value={tem_churrasqueira}
+                onChange={(event: any) => setChurrasqueira(event.target.value)}
+                name="first-name"
+                id="churrasqueira"
+                autoComplete="given-name"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
           </div>
         </div>
 
-        {/* Tem Piscina */}
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
-              htmlFor="temPiscina"
-              className="block text-sm font-medium text-gray-900"
+              htmlFor="nome_produto"
+              className="block text-sm/6 font-medium text-gray-900"
             >
-              Tem Piscina
+              piscina
             </label>
             <div className="mt-2">
               <input
-                type="checkbox"
-                checked={temPiscina}
-                onChange={() => setTemPiscina(!temPiscina)}
-                id="temPiscina"
-                className="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                type="text"
+                value={tem_piscina}
+                onChange={(event: any) => setPiscina(event.target.value)}
+                name="first-name"
+                id="piscina"
+                autoComplete="given-name"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
           </div>
         </div>
 
-        {/* Valor do Condomínio */}
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
-              htmlFor="valorCondominio"
-              className="block text-sm font-medium text-gray-900"
+              htmlFor="nome_produto"
+              className="block text-sm/6 font-medium text-gray-900"
             >
-              Valor do Condomínio
+              Valor condominio
             </label>
             <div className="mt-2">
               <input
-                type="number"
-                value={valorCondominio}
-                onChange={(event) =>
-                  setValorCondominio(Number(event.target.value))
-                }
-                id="valorCondominio"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                type="text"
+                value={valor_condominio}
+                onChange={(event) => setValorCondominio(event.target.value)}
+                name="first-name"
+                id="valor_condominio"
+                autoComplete="given-name"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
           </div>
         </div>
 
-        {/* Preço de Venda */}
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
-              htmlFor="precoVenda"
-              className="block text-sm font-medium text-gray-900"
+              htmlFor="nome_produto"
+              className="block text-sm/6 font-medium text-gray-900"
             >
-              Preço de Venda
+              Preço venda
             </label>
             <div className="mt-2">
               <input
-                type="number"
-                value={precoVenda}
-                onChange={(event) => setPrecoVenda(Number(event.target.value))}
-                id="precoVenda"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                type="text"
+                value={preco_venda}
+                onChange={(event) => setPrecoVenda(event.target.value)}
+                name="first-name"
+                id="preco_venda"
+                autoComplete="given-name"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Botões de Ação */}
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button type="button" className="text-sm font-semibold text-gray-900">
-          Cancelar
+        <button type="button" className="text-sm/6 font-semibold text-gray-900">
+          Cancel
         </button>
         <button
           type="submit"
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Cadastrar Casa
+          Save
         </button>
       </div>
     </form>

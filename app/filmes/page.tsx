@@ -1,6 +1,6 @@
 'use client'
 
-import { addClientes } from '@/lib/clientes/clientes'
+import { addFilmes } from '@/lib/filmes/filmes'
 import { useState } from 'react'
 
 export default function Page() {
@@ -8,11 +8,10 @@ export default function Page() {
   const [diretor, setDiretor] = useState('')
   const [assunto, setAssunto] = useState('')
   const [classificacao_etaria, setClassificacaoEtaria] = useState('')
-  const [cor_da_pele, setCorDaPele] = useState('')
 
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault()
-    // await addClientes(nome, nome_do_pai, endereco, data_de_nascimento, comum)
+    addFilmes(nome, diretor, assunto, classificacao_etaria)
   }
 
   return (

@@ -1,18 +1,16 @@
 'use client'
 
-import { addClientes } from '@/lib/clientes/clientes'
+import { addMaterias } from '@/lib/materias/materias'
 import { useState } from 'react'
 
 export default function Page() {
   const [nome, setNome] = useState('nome products')
   const [descricao, setDescricao] = useState('')
   const [ano_letivo, setAnoLetivo] = useState('nome products')
-  const [data_de_nascimento, setDataDeNascimento] = useState('')
-  const [comum, setComum] = useState('')
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    // await addClientes(nome, especialidade, endereco, data_de_nascimento, comum)
+    await addMaterias(nome, descricao, ano_letivo)
   }
 
   return (
@@ -70,7 +68,7 @@ export default function Page() {
                 </label>
                 <div className="mt-2">
                   <input
-                    type="text"
+                    type="Date"
                     id="ano_letivo"
                     value={ano_letivo}
                     onChange={(event) => setAnoLetivo(event.target.value)}
