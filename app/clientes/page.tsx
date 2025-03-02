@@ -18,7 +18,8 @@ export default function Page() {
       endereco_de_email,
       endereco,
       data_de_nascimento,
-      numero_de_telefone
+      numero_de_telefone,
+      cpf
     )
   }
 

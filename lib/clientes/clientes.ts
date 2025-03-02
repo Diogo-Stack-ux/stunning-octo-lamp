@@ -1,27 +1,28 @@
 'use server'
 import { pool } from '@/lib/db'
 export async function addClientes(
-  primeiro_nome: string,
-  nome_do_pai: string,
-  nome_da_mae: string,
+  nome: string,
+  email: string,
+  endereco: string,
   data_de_nascimento: string,
-  cor_da_pele: string
+  telefone: string,
+  cpf: string
 ) {
   await pool.query(
-    `insert into clientes(
-      primeiro_nome,
-      nome_do_pai,
-      nome_da_mae,
-     data_de_nascimento,
-      cor_da_pele
-      
+    `insert into clientes (
+      nome,
+      endereco_de_email,
+      numero_de_telefone,
+      endereco, 
+      data_de_nascimento,
+      cpf
     ) values (
-      '${primeiro_nome}',
-     '${nome_do_pai}',
-     '${nome_da_mae}',
+      '${nome}',
+      '${email}',
+      '${telefone}',
+      '${endereco}',
       '${data_de_nascimento}',
-      '${cor_da_pele}'
-      
+      '${cpf}'
      )`
   )
 }
