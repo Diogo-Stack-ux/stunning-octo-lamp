@@ -94,7 +94,7 @@ export default function Page() {
                 </label>
                 <div className="mt-2">
                   <input
-                    type="date"
+                    type="Date"
                     id="data_nascimento"
                     value={data_de_nascimento}
                     onChange={(event) =>

@@ -4,9 +4,9 @@ import { addMaterias } from '@/lib/materias/materias'
 import { useState } from 'react'
 
 export default function Page() {
-  const [nome, setNome] = useState('nome products')
+  const [nome, setNome] = useState('')
   const [descricao, setDescricao] = useState('')
-  const [ano_letivo, setAnoLetivo] = useState('nome products')
+  const [ano_letivo, setAnoLetivo] = useState('')
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()

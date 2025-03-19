@@ -3,11 +3,23 @@ import { pool } from '../db'
 export async function addInstrutores(
   nome: string,
   especialidade: string,
-  data_de_nascimento: string,
   endereco: string,
+  data_de_nascimento: Date,
   comum: string
 ) {
   await pool.query(
-    `insert into instrutores(nome, especialidade, data_de_nascimento, endereco, comum) values ('${nome}', '${especialidade}', '${data_de_nascimento}', '${endereco}', '${comum}')`
+    `insert into instrutores
+(nome,
+especialidade,
+endereco,
+data_de_nascimento,
+comum
+) values (
+ $1,
+ $2,
+ $3,
+ $4,
+ $5)`,
+    [nome, especialidade, endereco, data_de_nascimento, comum]
   )
 }

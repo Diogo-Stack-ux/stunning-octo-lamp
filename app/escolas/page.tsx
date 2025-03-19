@@ -7,7 +7,7 @@ export default function Page() {
   const [nome, setNome] = useState('')
   const [endereco, setEndereco] = useState('')
   const [quantidade_alunos, setQuantidadeAlunos] = useState(0)
-  const [telefone, setTelefone] = useState('')
+  const [telefone, setTelefone] = useState(0)
 
   const handleSubmit = (event: any) => {
     event.preventDefault()
@@ -98,9 +98,9 @@ export default function Page() {
             </label>
             <div className="mt-2">
               <input
-                type="text"
+                type="number"
                 value={telefone}
-                onChange={(event) => setTelefone(event.target.value)}
+                onChange={(event) => setTelefone(parseInt(event.target.value))}
                 id="telefone"
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
               />

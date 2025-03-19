@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 export default function Page() {
   const [titulo, setTitulo] = useState('')
-  const [numero, setNumero] = useState('')
+  const [numero, setNumero] = useState(0)
   const [letra, setLetra] = useState('')
 
   const handleSubmit = async (event: any) => {
@@ -15,7 +15,7 @@ export default function Page() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">ALUNO</h1>
+      <h1 className="text-2xl font-bold">HINOS</h1>
       <form onSubmit={handleSubmit}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
@@ -52,7 +52,9 @@ export default function Page() {
                   <input
                     id="numero"
                     value={numero}
-                    onChange={(event) => setNumero(event.target.value)}
+                    onChange={(event) =>
+                      setNumero(parseInt(event.target.value))
+                    }
                     type="number"
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />

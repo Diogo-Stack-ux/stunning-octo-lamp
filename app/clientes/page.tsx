@@ -7,8 +7,8 @@ export default function Page() {
   const [primeiro_nome, setPrimeiroNome] = useState('')
   const [endereco_de_email, setEnderecoDeEmail] = useState('')
   const [endereco, setEndereco] = useState('')
-  const [data_de_nascimento, setDataDeNascimento] = useState('')
-  const [numero_de_telefone, setNumeroDeTelefone] = useState('')
+  const [data_de_nascimento, setDataDeNascimento] = useState('data')
+  const [numero_de_telefone, setNumeroDeTelefone] = useState(0)
   const [cpf, setCpf] = useState('')
 
   const handleSubmit = async (event: any) => {
@@ -103,7 +103,7 @@ export default function Page() {
                     id="data_nascimento"
                     value={data_de_nascimento}
                     onChange={(event) =>
-                      setDataDeNascimento(event.target.value)
+                      setDataDeNascimento(event.target.valueAsDate)
                     }
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
@@ -123,7 +123,7 @@ export default function Page() {
                     id="telefone"
                     value={numero_de_telefone}
                     onChange={(event) =>
-                      setNumeroDeTelefone(event.target.value)
+                      setNumeroDeTelefone(parseInt(event.target.value))
                     }
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />

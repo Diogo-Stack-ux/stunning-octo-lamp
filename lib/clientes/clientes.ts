@@ -4,8 +4,8 @@ export async function addClientes(
   nome: string,
   email: string,
   endereco: string,
-  data_de_nascimento: string,
-  telefone: string,
+  data_de_nascimento: Date,
+  telefone: number,
   cpf: string
 ) {
   await pool.query(
@@ -17,12 +17,12 @@ export async function addClientes(
       data_de_nascimento,
       cpf
     ) values (
-      '${nome}',
-      '${email}',
-      '${telefone}',
-      '${endereco}',
-      '${data_de_nascimento}',
-      '${cpf}'
-     )`
+     $1,
+     $2,
+     $3,
+     $4,
+     $5,
+     $6)`,
+    [nome, email, telefone, endereco, data_de_nascimento, cpf]
   )
 }

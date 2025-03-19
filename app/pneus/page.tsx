@@ -6,10 +6,10 @@ import { useState } from 'react'
 export default function Page() {
   const [marca, setMarca] = useState('')
   const [modelo, setModelo] = useState('')
-  const [largura, setLargura] = useState('')
-  const [raio, setRaio] = useState('')
-  const [especura, setEspecura] = useState('')
-  const [carga_maxima, setCargaMaxima] = useState('')
+  const [largura, setLargura] = useState(0)
+  const [raio, setRaio] = useState(0)
+  const [especura, setEspecura] = useState(0)
+  const [carga_maxima, setCargaMaxima] = useState(0)
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
@@ -73,10 +73,12 @@ export default function Page() {
                 </label>
                 <div className="mt-2">
                   <input
-                    type="text"
+                    type="number"
                     id="largura"
                     value={largura}
-                    onChange={(event) => setLargura(event.target.value)}
+                    onChange={(event) =>
+                      setLargura(parseInt(event.target.value))
+                    }
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
@@ -91,10 +93,10 @@ export default function Page() {
                 </label>
                 <div className="mt-2">
                   <input
-                    type="text"
+                    type="number"
                     id="raio"
                     value={raio}
-                    onChange={(event) => setRaio(event.target.value)}
+                    onChange={(event) => setRaio(parseInt(event.target.value))}
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
@@ -111,7 +113,9 @@ export default function Page() {
                     type="text"
                     id=""
                     value={especura}
-                    onChange={(event) => setEspecura(event.target.value)}
+                    onChange={(event) =>
+                      setEspecura(parseInt(event.target.value))
+                    }
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
@@ -128,7 +132,9 @@ export default function Page() {
                     type="text"
                     id="especura"
                     value={carga_maxima}
-                    onChange={(event) => setCargaMaxima(event.target.value)}
+                    onChange={(event) =>
+                      setCargaMaxima(parseInt(event.target.value))
+                    }
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>

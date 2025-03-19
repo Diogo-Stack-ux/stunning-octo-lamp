@@ -7,6 +7,17 @@ export async function addUsuarios(
   senha: string
 ) {
   await pool.query(
-    `insert into usuarios (nome, apelido, email, senha) values ('${nome}', '${apelido}', '${email}', '${senha}')`
+    `insert into usuarios
+(nome,
+apelido,
+email,
+senha
+) values (
+ $1,
+ $2,
+ $3,
+ $4
+  )`,
+    [nome, apelido, email, senha]
   )
 }

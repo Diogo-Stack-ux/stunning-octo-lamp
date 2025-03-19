@@ -4,23 +4,16 @@ import React, { useState } from 'react'
 import { addApartamento } from '@/lib/apartamentos/apartamentos'
 
 export default function Page() {
-  const [tipo, seTtipo] = useState('tipo')
-  const [condominio, setCondominio] = useState('condominio')
-  const [area_privativa, setArea_privativa] = useState('area_privativa')
-  const [area_comum, setArea_comum] = useState('area_comum')
-  const [quantidade_de_quartos, setQuantidade_de_quartos] = useState(
-    'quantidade_de_quartos'
-  )
-  const [quantidade_de_banheiros, setQuantidade_de_banheiros] = useState(
-    'quantidade_de_banheiros'
-  )
-  const [tem_churrasqueira, setTem_churrasqueira] =
-    useState('tem_churrasqueira')
-  const [tem_piscina, setTem_piscina] = useState('tem_piscina')
-  const [valor_do_condominio, setValor_do_condominio] = useState(
-    'valor_do_condominio'
-  )
-  const [preco_de_venda, setPreco_de_venda] = useState('preco_de_venda')
+  const [tipo, seTtipo] = useState('')
+  const [condominio, setCondominio] = useState('')
+  const [area_privativa, setArea_privativa] = useState(0)
+  const [area_comum, setArea_comum] = useState(0)
+  const [quantidade_de_quartos, setQuantidade_de_quartos] = useState(0)
+  const [quantidade_de_banheiros, setQuantidade_de_banheiros] = useState(0)
+  const [tem_churrasqueira, setTem_churrasqueira] = useState(true)
+  const [tem_piscina, setTem_piscina] = useState(true)
+  const [valor_do_condominio, setValor_do_condominio] = useState(0)
+  const [preco_de_venda, setPreco_de_venda] = useState(0)
 
   const handlSubmit = async (event: Event) => {
     event?.preventDefault()
@@ -104,9 +97,11 @@ export default function Page() {
             </label>
             <div className="mt-2">
               <input
-                type="text"
+                type="number"
                 value={area_privativa}
-                onChange={(event) => setArea_privativa(event.target.value)}
+                onChange={(event) =>
+                  setArea_privativa(parseInt(event.target.value))
+                }
                 name="first-name"
                 id="area_privativa"
                 autoComplete="given-name"
@@ -126,9 +121,11 @@ export default function Page() {
             </label>
             <div className="mt-2">
               <input
-                type="text"
+                type="number"
                 value={area_comum}
-                onChange={(event) => setArea_comum(event.target.value)}
+                onChange={(event) =>
+                  setArea_comum(parseInt(event.target.value))
+                }
                 name="first-name"
                 id="area_comum"
                 autoComplete="given-name"
@@ -148,10 +145,10 @@ export default function Page() {
             </label>
             <div className="mt-2">
               <input
-                type="text"
+                type="number"
                 value={quantidade_de_quartos}
                 onChange={(event) =>
-                  setQuantidade_de_quartos(event.target.value)
+                  setQuantidade_de_quartos(parseInt(event.target.value))
                 }
                 name="first-name"
                 id="quantidade_quartos"
@@ -172,10 +169,10 @@ export default function Page() {
             </label>
             <div className="mt-2">
               <input
-                type="text"
+                type="number"
                 value={quantidade_de_banheiros}
                 onChange={(event) =>
-                  setQuantidade_de_banheiros(event.target.value)
+                  setQuantidade_de_banheiros(parseInt(event.target.value))
                 }
                 name="first-name"
                 id="quantidade_banheiros"
@@ -192,15 +189,15 @@ export default function Page() {
               htmlFor="nome_produto"
               className="block text-sm/6 font-medium text-gray-900"
             >
-              Churrasqueira
+              tem_Churrasqueira
             </label>
             <div className="mt-2">
               <input
-                type="text"
-                value={tem_churrasqueira}
-                onChange={(event) => setTem_churrasqueira(event.target.value)}
-                name="first-name"
-                id="condominio"
+                type="checkbox"
+                checked={tem_churrasqueira}
+                onChange={(event) => setTem_churrasqueira(event.target.checked)}
+                name="tem_churrasqueira"
+                id="tem_churrasqueira"
                 autoComplete="given-name"
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
@@ -218,11 +215,11 @@ export default function Page() {
             </label>
             <div className="mt-2">
               <input
-                type="text"
-                value={tem_piscina}
-                onChange={(event) => setTem_piscina(event.target.value)}
-                name="first-name"
-                id="condominio"
+                type="checkbox"
+                checked={tem_piscina}
+                onChange={(event) => setTem_piscina(event.target.checked)}
+                name="piscina"
+                id="tem_piscina"
                 autoComplete="given-name"
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
@@ -240,11 +237,13 @@ export default function Page() {
             </label>
             <div className="mt-2">
               <input
-                type="text"
+                type="number"
                 value={valor_do_condominio}
-                onChange={(event) => setValor_do_condominio(event.target.value)}
+                onChange={(event) =>
+                  setValor_do_condominio(parseInt(event.target.value))
+                }
                 name="first-name"
-                id="condominio"
+                id="valor_do_condominio"
                 autoComplete="given-name"
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
@@ -262,11 +261,13 @@ export default function Page() {
             </label>
             <div className="mt-2">
               <input
-                type="text"
+                type="number"
                 value={preco_de_venda}
-                onChange={(event) => setPreco_de_venda(event.target.value)}
+                onChange={(event) =>
+                  setPreco_de_venda(parseInt(event.target.value))
+                }
                 name="first-name"
-                id="condominio"
+                id="preco_de_venda"
                 autoComplete="given-name"
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />

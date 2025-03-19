@@ -5,6 +5,16 @@ export async function addMaterias(
   descricao: string,
   ano_letivo: string
 ) {
-  await pool.query(`insert into materias(nome, descricao , ano_letivo) values 
-	('${nome}', '${descricao}', '${ano_letivo}')`)
+  await pool.query(
+    `insert into materias
+  (nome,
+  descricao ,
+  ano_letivo
+  ) values (
+  $1,
+  $2,
+  $3
+  )`,
+    [nome, descricao, ano_letivo]
+  )
 }

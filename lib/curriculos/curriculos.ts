@@ -7,6 +7,17 @@ export async function addCurriculo(
   habilidades: string
 ) {
   await pool.query(
-    `insert into curriculo (nome, endereco, curriculo, habilidades) values ('${nome}', '${endereco}', '${curriculo}', '${habilidades}')`
+    `insert into curriculo 
+(nome,
+endereco,
+curriculo,
+habilidades
+) values (
+ $1,
+ $2,
+ $3,
+ $4
+  )`,
+    [nome, endereco, curriculo, habilidades]
   )
 }

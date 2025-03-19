@@ -6,15 +6,15 @@ import { addCasas } from '@/lib/casas/casas'
 export default function Page() {
   const [tipo, setTipo] = useState('tipo')
   const [endereco, setEndereco] = useState('endereco')
-  const [area_terreno, setAreaTerreno] = useState('areaTerreno')
-  const [area_construida, setAreaConstruida] = useState('areaConstruida')
-  const [quantidade_quartos, setQuartos] = useState('quartos')
-  const [quantidade_banheiros, setBanheiros] = useState('banheiros')
-  const [tem_edicula, setEdicula] = useState('')
-  const [tem_churrasqueira, setChurrasqueira] = useState('')
-  const [tem_piscina, setPiscina] = useState('')
-  const [valor_condominio, setValorCondominio] = useState('valorCondominio')
-  const [preco_venda, setPrecoVenda] = useState('')
+  const [area_terreno, setAreaTerreno] = useState(0)
+  const [area_construida, setAreaConstruida] = useState(0)
+  const [quantidade_quartos, setQuartos] = useState(0)
+  const [quantidade_banheiros, setBanheiros] = useState(0)
+  const [tem_edicula, setEdicula] = useState(false)
+  const [tem_churrasqueira, setChurrasqueira] = useState(false)
+  const [tem_piscina, setPiscina] = useState(false)
+  const [valor_condominio, setValorCondominio] = useState(0)
+  const [preco_venda, setPrecoVenda] = useState(0)
 
   const handlSubmit = (event: any) => {
     event.preventDefault()
@@ -165,7 +165,7 @@ export default function Page() {
               <input
                 type="text"
                 value={quantidade_banheiros}
-                onChange={(event) => setBanheiros(event.target.value)}
+                onChange={(event) => setBanheiros(parseInt(event.target.value))}
                 name="first-name"
                 id="banheiros"
                 autoComplete="given-name"
@@ -186,7 +186,7 @@ export default function Page() {
             <div className="mt-2">
               <input
                 type="text"
-                value={tem_edicula}
+                checked={tem_edicula}
                 onChange={(event: any) => setEdicula(event.target.value)}
                 name="first-name"
                 id="edeicula"
@@ -207,8 +207,8 @@ export default function Page() {
             </label>
             <div className="mt-2">
               <input
-                type="text"
-                value={tem_churrasqueira}
+                type="checkbox"
+                checked={tem_churrasqueira}
                 onChange={(event: any) => setChurrasqueira(event.target.value)}
                 name="first-name"
                 id="churrasqueira"
@@ -229,8 +229,8 @@ export default function Page() {
             </label>
             <div className="mt-2">
               <input
-                type="text"
-                value={tem_piscina}
+                type="checkbox"
+                checked={tem_piscina}
                 onChange={(event: any) => setPiscina(event.target.value)}
                 name="first-name"
                 id="piscina"
@@ -253,7 +253,9 @@ export default function Page() {
               <input
                 type="text"
                 value={valor_condominio}
-                onChange={(event) => setValorCondominio(event.target.value)}
+                onChange={(event) =>
+                  setValorCondominio(parseInt(event.target.value))
+                }
                 name="first-name"
                 id="valor_condominio"
                 autoComplete="given-name"
@@ -275,7 +277,9 @@ export default function Page() {
               <input
                 type="text"
                 value={preco_venda}
-                onChange={(event) => setPrecoVenda(event.target.value)}
+                onChange={(event) =>
+                  setPrecoVenda(parseInt(event.target.value))
+                }
                 name="first-name"
                 id="preco_venda"
                 autoComplete="given-name"

@@ -7,14 +7,14 @@ export default function Page() {
   const [nome, setNome] = useState('')
   const [endereco, setEndereco] = useState('')
   const [anciao, setAnciao] = useState('')
-  const [telefoneAnciao, setTelefoneAnciao] = useState('')
+  const [telefoneAnciao, setTelefoneAnciao] = useState(0)
   const [cooperador, setCooperador] = useState('')
-  const [telefoneCooperador, setTelefoneCooperador] = useState('')
+  const [telefoneCooperador, setTelefoneCooperador] = useState(0)
   const [cooperadorJovens, setCooperadorJovens] = useState('')
-  const [telefoneCooperadorJovens, setTelefoneCooperadorJovens] = useState('')
+  const [telefoneCooperadorJovens, setTelefoneCooperadorJovens] = useState(0)
   const [diacono, setDiacono] = useState('')
-  const [telefoneDiacono, setTelefoneDiacono] = useState('')
-  const [ultimaSantaCeia, setUltimaSantaCeia] = useState('')
+  const [telefoneDiacono, setTelefoneDiacono] = useState(0)
+  const [ultimaSantaCeia, setUltimaSantaCeia] = useState(0)
 
   const handleSubmit = (event: any) => {
     event.preventDefault()
@@ -78,9 +78,9 @@ export default function Page() {
           Telefone Ancião
         </label>
         <input
-          type="tel"
+          type="number"
           value={telefoneAnciao}
-          onChange={(e) => setTelefoneAnciao(e.target.value)}
+          onChange={(e) => setTelefoneAnciao(parseInt(e.target.value))}
           className="w-full rounded-md border-gray-300 px-3 py-1.5"
         />
       </div>
@@ -102,9 +102,9 @@ export default function Page() {
           Telefone Cooperador
         </label>
         <input
-          type="tel"
+          type="number"
           value={telefoneCooperador}
-          onChange={(e) => setTelefoneCooperador(e.target.value)}
+          onChange={(e) => setTelefoneCooperador(parseInt(e.target.value))}
           className="w-full rounded-md border-gray-300 px-3 py-1.5"
         />
       </div>
@@ -126,9 +126,11 @@ export default function Page() {
           Telefone Cooperador de Jovens
         </label>
         <input
-          type="tel"
+          type="number"
           value={telefoneCooperadorJovens}
-          onChange={(e) => setTelefoneCooperadorJovens(e.target.value)}
+          onChange={(e) =>
+            setTelefoneCooperadorJovens(parseInt(e.target.value))
+          }
           className="w-full rounded-md border-gray-300 px-3 py-1.5"
         />
       </div>
@@ -150,9 +152,9 @@ export default function Page() {
           Telefone Diácono
         </label>
         <input
-          type="tel"
+          type="number"
           value={telefoneDiacono}
-          onChange={(e) => setTelefoneDiacono(e.target.value)}
+          onChange={(e) => setTelefoneDiacono(parseInt(e.target.value))}
           className="w-full rounded-md border-gray-300 px-3 py-1.5"
         />
       </div>
@@ -164,7 +166,7 @@ export default function Page() {
         <input
           type="number"
           value={ultimaSantaCeia}
-          onChange={(e) => setUltimaSantaCeia(e.target.value)}
+          onChange={(e) => setUltimaSantaCeia(parseInt(e.target.value))}
           className="w-full rounded-md border-gray-300 px-3 py-1.5"
         />
       </div>

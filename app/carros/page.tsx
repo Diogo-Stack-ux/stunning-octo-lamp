@@ -6,9 +6,9 @@ import { useState } from 'react'
 export default function Page() {
   const [fabricante, setFabricante] = useState('')
   const [modelo, setModelo] = useState('')
-  const [ano_de_fabricacao, setAnoDeFabricacao] = useState('')
-  const [cor, setCor] = useState('')
-  const [quilometragem, setQuilometragem] = useState('')
+  const [ano_de_fabricacao, setAnoDeFabricacao] = useState(0)
+  const [cor, setCor] = useState('cor')
+  const [quilometragem, setQuilometragem] = useState(0)
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
@@ -72,10 +72,12 @@ export default function Page() {
                 </label>
                 <div className="mt-2">
                   <input
-                    type="date"
+                    type="number"
                     id="ano_de_fabricacao"
                     value={ano_de_fabricacao}
-                    onChange={(event) => setAnoDeFabricacao(event.target.value)}
+                    onChange={(event) =>
+                      setAnoDeFabricacao(parseInt(event.target.value))
+                    }
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>
@@ -108,10 +110,12 @@ export default function Page() {
                 </label>
                 <div className="mt-2">
                   <input
-                    type="text"
+                    type="number"
                     id="quilometragem"
                     value={quilometragem}
-                    onChange={(event) => setQuilometragem(event.target.value)}
+                    onChange={(event) =>
+                      setQuilometragem(parseInt(event.target.value))
+                    }
                     className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
                   />
                 </div>

@@ -132,7 +132,7 @@ export default function Page() {
                 </label>
                 <div className="mt-2">
                   <input
-                    type="text"
+                    type="number"
                     id="data_de_lancamento"
                     value={preco_sugerido}
                     onChange={(event) => setPrecoSugerido(event.target.value)}

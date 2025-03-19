@@ -9,6 +9,20 @@ export async function addLivros(
   preco_sugerido: string
 ) {
   await pool.query(
-    `insert into Livros (nome, autor, assunto, resumo, data_de_lancamento, preco_sugerido) values ('${nome}', '${autor}', '${assunto}', '${resumo}', '${data_de_lancamento}', '${preco_sugerido}')`
+    `insert into Livros
+  (nome,
+  autor,
+  assunto,
+  resumo,
+  data_de_lancamento,
+  preco_sugerido
+  ) values (
+   $1,
+   $2,
+   $3,
+   $4,
+   $5,
+   $6 )`,
+    [nome, autor, assunto, resumo, data_de_lancamento, preco_sugerido]
   )
 }

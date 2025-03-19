@@ -7,6 +7,17 @@ export async function addFilmes(
   classificacao_etaria: string
 ) {
   await pool.query(
-    `insert into filmes (nome, diretor, assunto, classificacao_etaria ) values ('${nome}', '${diretor}', '${assunto}', '${classificacao_etaria}')`
+    `insert into filmes 
+(nome,
+diretor,
+assunto,
+classificacao_etaria
+) values (
+ $1,
+ $2,
+ $3,
+ $4
+  )`,
+    [nome, diretor, assunto, classificacao_etaria]
   )
 }
