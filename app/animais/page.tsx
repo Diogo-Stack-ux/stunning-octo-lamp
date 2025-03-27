@@ -1,128 +1,187 @@
 'use client'
 
-import { useState } from 'react'
-import { addAnimais } from '@/lib/animais/animais'
+import { useEffect, useState } from 'react'
+import {
+  addAnimais,
+  getAnimais,
+  removeAnimais,
+  updateAnimais,
+} from '@/lib/animais/animais'
+
+interface Animal {
+  id: number
+  nome: string
+  nome_cientifico: string
+  especie: string
+  grupo: string
+}
 
 export default function Page() {
+  const [animais, setAnimais] = useState<Animal[]>([])
   const [nome, setNome] = useState('')
-  const [nomeCientifico, setNomeCientifico] = useState('')
+  const [nome_cientifico, setNomeCientifico] = useState('')
   const [especie, setEspecie] = useState('')
   const [grupo, setGrupo] = useState('')
+  const [id, setId] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(true)
 
-  const handleSubmit = (event: any) => {
+  const fetchAnimais = async () => {
+    try {
+      const data = await getAnimais()
+      setAnimais(data)
+    } catch (error) {
+      console.error('Erro ao buscar animais:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchAnimais()
+  }, [])
+
+  const handleEdit = (animal: Animal) => {
+    setId(animal.id)
+    setNome(animal.nome)
+    setNomeCientifico(animal.nome_cientifico)
+    setEspecie(animal.especie)
+    setGrupo(animal.grupo)
+    setIsModalOpen(true)
+  }
+
+  const handleRemove = async (animal: Animal) => {
+    try {
+      await removeAnimais(animal.id)
+      fetchAnimais()
+    } catch (error) {
+      console.error('Erro ao remover animal:', error)
+    }
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    addAnimais(nome, nomeCientifico, especie, grupo)
-
-    const animal = { nome, nomeCientifico, especie, grupo }
-    console.log('Cadastro de Animal:', animal)
+    try {
+      if (id === 0) {
+        await addAnimais(nome, nome_cientifico, especie, grupo)
+      } else {
+        await updateAnimais(id, nome, nome_cientifico, especie, grupo)
+      }
+      fetchAnimais()
+      closeModal()
+    } catch (error) {
+      console.error('Erro ao salvar animal:', error)
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="space-y-12">
-        <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold text-gray-900">
-            Cadastro de Animal
-          </h2>
-          <p className="mt-1 text-sm text-gray-600">
-            Preencha as informações abaixo para cadastrar o animal.
-          </p>
-        </div>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">CADASTRO DE ANIMAIS</h1>
+      <button
+        onClick={() =>
+          handleEdit({
+            id: 0,
+            nome: '',
+            nome_cientifico: '',
+            especie: '',
+            grupo: '',
+          })
+        }
+        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
+      >
+        ADICIONAR UM NOVO ANIMAL
+      </button>
+      <div className="overflow-x-auto mt-4">
+        <table className="table-auto w-full">
+          <thead>
+            <tr>
+              <th className="border px-4 py-2">Nome</th>
+              <th className="border px-4 py-2">Nome CIÊNTIFICO</th>
+              <th className="border px-4 py-2">ESPECIE</th>
+              <th className="border px-4 py-2">GRUPO</th>
+              <th className="border px-4 py-2">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {animais.map((animal) => (
+              <tr key={animal.id} className="hover:bg-gray-100">
+                <td className="border px-4 py-2">{animal.nome}</td>
+                <td className="border px-4 py-2">{animal.nome_cientifico}</td>
+                <td className="border px-4 py-2">{animal.especie}</td>
+                <td className="border px-4 py-2">{animal.grupo}</td>
+                <td className="border px-4 py-2">
+                  <button
+                    onClick={() => handleEdit(animal)}
+                    className="bg-yellow-500 px-3 py-1 text-white rounded-md mr-2"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleRemove(animal)}
+                    className="bg-red-500 px-3 py-1 text-white rounded-md"
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div className="sm:col-span-3">
-            <label
-              htmlFor="nome"
-              className="block text-sm font-medium text-gray-900"
-            >
-              Nome
-            </label>
-            <div className="mt-2">
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-md w-96">
+            <h2 className="text-lg font-bold mb-4">Novo Animal</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 type="text"
+                placeholder="Nome"
                 value={nome}
-                onChange={(event) => setNome(event.target.value)}
-                id="nome"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                onChange={(e) => setNome(e.target.value)}
+                className="w-full p-2 border rounded-md"
               />
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div className="sm:col-span-3">
-            <label
-              htmlFor="nomeCientifico"
-              className="block text-sm font-medium text-gray-900"
-            >
-              Nome Científico
-            </label>
-            <div className="mt-2">
               <input
                 type="text"
-                value={nomeCientifico}
-                onChange={(event) => setNomeCientifico(event.target.value)}
-                id="nomeCientifico"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                placeholder="Nome cientifico"
+                value={nome_cientifico}
+                onChange={(e) => setNomeCientifico(e.target.value)}
+                className="w-full p-2 border rounded-md"
               />
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div className="sm:col-span-3">
-            <label
-              htmlFor="especie"
-              className="block text-sm font-medium text-gray-900"
-            >
-              Espécie
-            </label>
-            <div className="mt-2">
               <input
                 type="text"
+                placeholder="especie"
                 value={especie}
-                onChange={(event) => setEspecie(event.target.value)}
-                id="especie"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                onChange={(e) => setEspecie(e.target.value)}
+                className="w-full p-2 border rounded-md"
               />
-            </div>
-          </div>
-        </div>
-
-        {/* Grupo */}
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div className="sm:col-span-3">
-            <label
-              htmlFor="grupo"
-              className="block text-sm font-medium text-gray-900"
-            >
-              Grupo
-            </label>
-            <div className="mt-2">
               <input
                 type="text"
+                placeholder="grupo"
                 value={grupo}
-                onChange={(event) => setGrupo(event.target.value)}
-                id="grupo"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                onChange={(e) => setGrupo(e.target.value)}
+                className="w-full p-2 border rounded-md"
               />
-            </div>
+              <div className="flex justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="bg-gray-400 px-3 py-1 rounded-md"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="bg-indigo-600 px-3 py-1 text-white rounded-md"
+                >
+                  Salvar
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-      </div>
-
-      {/* Botões de Ação */}
-      <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button type="button" className="text-sm font-semibold text-gray-900">
-          Cancelar
-        </button>
-        <button
-          type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Cadastrar Animal
-        </button>
-      </div>
-    </form>
+      )}
+    </div>
   )
 }
