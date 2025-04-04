@@ -1,118 +1,192 @@
 'use client'
 
-import { addUsuarios } from '@/lib/usuarios/usuarios'
-import { useState } from 'react'
+import {
+  addUsuarios,
+  getUsuarios,
+  updateUsuarios,
+  removeUsuarios,
+} from '@/lib/usuarios/usuarios'
+import { useState, useEffect } from 'react'
+
+interface Usuario {
+  id: number
+  nome: string
+  apelido: string
+  endereco_de_email: string
+  senha: string
+}
 
 export default function Page() {
+  const [usuarios, setUsuarios] = useState<Usuario[]>([])
+  const [id, setId] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [nome, setNome] = useState('')
   const [apelido, setApelido] = useState('')
   const [endereco_de_email, setEnderecoDeEmail] = useState('')
   const [senha, setSenha] = useState('')
 
-  const handleSubmit = async (event: any) => {
+  const fetchUsuarios = async () => {
+    try {
+      const data = await getUsuarios()
+      setUsuarios(data)
+    } catch (error) {
+      console.error('Erro ao buscar usuarios:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchUsuarios()
+  }, [])
+
+  const handleEdit = (Usuario: Usuario) => {
+    setId(Usuario.id)
+    setNome(Usuario.nome)
+    setApelido(Usuario.apelido)
+    setEnderecoDeEmail(Usuario.endereco_de_email)
+    setSenha(Usuario.senha)
+    setIsModalOpen(true)
+  }
+
+  const handleRemove = async (Usuario: Usuario) => {
+    try {
+      await removeUsuarios(Usuario.id)
+      fetchUsuarios()
+    } catch (error) {
+      console.error('Erro ao remover usuario:', error)
+    }
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    await addUsuarios(nome, apelido, endereco_de_email, senha)
+    try {
+      if (id === 0) {
+        await addUsuarios(nome, apelido, endereco_de_email, senha)
+      } else {
+        await updateUsuarios(id, nome, apelido, endereco_de_email, senha)
+      }
+      fetchUsuarios()
+      closeModal()
+    } catch (error) {
+      console.error('Erro ao salvar usuario:', error)
+    }
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">usuarios</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="space-y-12">
-          <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold text-gray-900"></h2>
-            <p className="mt-1 text-sm text-gray-600">
-              ESTA É A PAGINA DO USUARIO.
-            </p>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">CADASTRO DE USUARIOS</h1>
+      <button
+        onClick={() =>
+          handleEdit({
+            id: 0,
+            nome: '',
+            apelido: '',
+            endereco_de_email: '',
+            senha: '',
+          })
+        }
+        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
+      >
+        ADICIONAR NOVO USUARIO
+      </button>
+      <div className="overflow-x-auto mt-4">
+        <table className="table-auto w-full">
+          <thead>
+            <tr>
+              <th className="border px-4 py-2">Nome</th>
+              <th className="border px-4 py-2">apelido</th>
+              <th className="border px-4 py-2">Endereço de email</th>
+              <th className="border px-4 py-2">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {usuarios.map((usuario) => (
+              <tr key={usuario.id} className="hover:bg-gray-100">
+                <td className="border px-4 py-2">{usuario.nome}</td>
+                <td className="border px-4 py-2">{usuario.apelido}</td>
+                <td className="border px-4 py-2">
+                  {usuario.endereco_de_email}
+                </td>
+                <td className="border px-4 py-2">
+                  {usuario.senha?.toString()}
+                </td>
+                <td className="border px-4 py-2">{usuario.nome}</td>
+                <td className="border px-4 py-2">
+                  <button
+                    onClick={() => handleEdit(usuario)}
+                    className="bg-yellow-500 px-3 py-1 text-white rounded-md mr-2"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleRemove(usuario)}
+                    className="bg-red-500 px-3 py-1 text-white rounded-md"
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="nome"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Nome
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="first-name"
-                    value={nome}
-                    onChange={(event) => setNome(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-md w-96">
+            <h2 className="text-lg font-bold mb-4">Novo Usuario</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="text"
+                placeholder="Nome"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="Apelido"
+                value={apelido}
+                onChange={(e) => setApelido(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="endereco_de_email"
+                value={endereco_de_email}
+                onChange={(e) => setEnderecoDeEmail(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="senha"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
 
-              <div className="sm:col-span-4">
-                <label
-                  htmlFor="apelido"
-                  className="block text-sm font-medium text-gray-900"
+              <div className="flex justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="bg-gray-400 px-3 py-1 rounded-md"
                 >
-                  Apelido
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="apelido"
-                    value={apelido}
-                    onChange={(event) => setApelido(event.target.value)}
-                    type="text"
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-
-              <div className="col-span-full">
-                <label
-                  htmlFor="endereco_de_email"
-                  className="block text-sm font-medium text-gray-900"
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="bg-indigo-600 px-3 py-1 text-white rounded-md"
                 >
-                  Endereço De Email
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="email"
-                    id="endereco"
-                    value={endereco_de_email}
-                    onChange={(event) => setEnderecoDeEmail(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
+                  Salvar
+                </button>
               </div>
-
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="senha"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  senha
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="senha"
-                    value={senha}
-                    onChange={(event) => setSenha(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
-
-        <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" className="text-sm font-semibold text-gray-900">
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
-          >
-            Salvar
-          </button>
-        </div>
-      </form>
+      )}
     </div>
   )
 }

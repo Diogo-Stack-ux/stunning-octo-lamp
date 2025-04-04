@@ -23,7 +23,7 @@ export default function Page() {
   const [nome, setNome] = useState('')
   const [nome_do_pai, setNomeDoPai] = useState('')
   const [nome_da_mae, setNomeDaMae] = useState('')
-  const [data_de_nascimento, setDataDeNascimento] = useState('')
+  const [data_de_nascimento, setDataDeNascimento] = useState(new Date())
   const [cor_da_pele, setCorDaPele] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -101,7 +101,7 @@ export default function Page() {
             nome: '',
             nome_do_pai: '',
             nome_da_mae: '',
-            data_de_nascimento: '',
+            data_de_nascimento: new Date(),
             cor_da_pele: '',
           })
         }

@@ -1,120 +1,190 @@
 'use client'
 
-import { addFilmes } from '@/lib/filmes/filmes'
-import { useState } from 'react'
+import {
+  addFilmes,
+  getFilmes,
+  removeFilmes,
+  updateFilmes,
+} from '@/lib/filmes/filmes'
+import { useState, useEffect } from 'react'
+
+interface Filme {
+  id: number
+  nome: string
+  diretor: string
+  assunto: string
+  classificacao_etaria: string
+}
 
 export default function Page() {
+  const [filmes, setFilmes] = useState<Filme[]>([])
+  const [id, setId] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [nome, setNome] = useState('')
   const [diretor, setDiretor] = useState('')
   const [assunto, setAssunto] = useState('')
   const [classificacao_etaria, setClassificacaoEtaria] = useState('')
 
-  const handleSubmit = (event: any) => {
+  const fetchFilmes = async () => {
+    try {
+      const data = await getFilmes()
+      setFilmes(data)
+    } catch (error) {
+      console.error('Erro ao buscar filmes:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchFilmes()
+  }, [])
+
+  const handleEdit = (filme: Filme) => {
+    setId(filme.id)
+    setNome(filme.nome)
+    setDiretor(filme.diretor)
+    setAssunto(filme.assunto)
+    setClassificacaoEtaria(filme.classificacao_etaria)
+    setIsModalOpen(true)
+  }
+
+  const handleRemove = async (filme: Filme) => {
+    try {
+      await removeFilmes(filme.id)
+      fetchFilmes()
+    } catch (error) {
+      console.error('Erro ao remover filme:', error)
+    }
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    addFilmes(nome, diretor, assunto, classificacao_etaria)
+    try {
+      if (id === 0) {
+        await addFilmes(nome, diretor, assunto, classificacao_etaria)
+      } else {
+        await updateFilmes(id, nome, diretor, assunto, classificacao_etaria)
+      }
+      fetchFilmes()
+      closeModal()
+    } catch (error) {
+      console.error('Erro ao salvar filme:', error)
+    }
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">FILMES</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="space-y-12">
-          <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold text-gray-900"></h2>
-            <p className="mt-1 text-sm text-gray-600">
-              OS MELHORES FILMES ESTÃO AQUI.
-            </p>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">seleção de Filmes</h1>
+      <button
+        onClick={() =>
+          handleEdit({
+            id: 0,
+            nome: '',
+            diretor: '',
+            assunto: '',
+            classificacao_etaria: '',
+          })
+        }
+        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
+      >
+        ADICIONAR NOVO FILME
+      </button>
+      <div className="overflow-x-auto mt-4">
+        <table className="table-auto w-full">
+          <thead>
+            <tr>
+              <th className="border px-4 py-2">Nome</th>
+              <th className="border px-4 py-2">Diretor</th>
+              <th className="border px-4 py-2">Assunto</th>
+              <th className="border px-4 py-2">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filmes.map((filme) => (
+              <tr key={filme.id} className="hover:bg-gray-100">
+                <td className="border px-4 py-2">{filme.nome}</td>
+                <td className="border px-4 py-2">{filme.diretor}</td>
+                <td className="border px-4 py-2">{filme.assunto}</td>
+                <td className="border px-4 py-2">
+                  {filme.classificacao_etaria?.toString()}
+                </td>
+                <td className="border px-4 py-2">{filme.nome}</td>
+                <td className="border px-4 py-2">
+                  <button
+                    onClick={() => handleEdit(filme)}
+                    className="bg-yellow-500 px-3 py-1 text-white rounded-md mr-2"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleRemove(filme)}
+                    className="bg-red-500 px-3 py-1 text-white rounded-md"
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="first-name"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Nome
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="name"
-                    value={nome}
-                    onChange={(event) => setNome(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-md w-96">
+            <h2 className="text-lg font-bold mb-4">Novo Filme</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="text"
+                placeholder="Nome"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="diretor"
+                value={diretor}
+                onChange={(e) => setDiretor(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="assunto"
+                value={assunto}
+                onChange={(e) => setAssunto(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="classificacao_etaria"
+                value={classificacao_etaria}
+                onChange={(e) => setClassificacaoEtaria(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
 
-              <div className="sm:col-span-4">
-                <label
-                  htmlFor="diretor"
-                  className="block text-sm font-medium text-gray-900"
+              <div className="flex justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="bg-gray-400 px-3 py-1 rounded-md"
                 >
-                  Diretor
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="nome_do_pai"
-                    value={diretor}
-                    onChange={(event) => setDiretor(event.target.value)}
-                    type="diretor"
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-
-              <div className="col-span-full">
-                <label
-                  htmlFor="assunto"
-                  className="block text-sm font-medium text-gray-900"
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="bg-indigo-600 px-3 py-1 text-white rounded-md"
                 >
-                  Assunto
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="assunto"
-                    value={assunto}
-                    onChange={(event) => setAssunto(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
+                  Salvar
+                </button>
               </div>
-
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="classificacao_etaria"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  classificação etaria
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="data_nascimento"
-                    value={classificacao_etaria}
-                    onChange={(event) =>
-                      setClassificacaoEtaria(event.target.value)
-                    }
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
-
-        <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" className="text-sm font-semibold text-gray-900">
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
-          >
-            Salvar
-          </button>
-        </div>
-      </form>
+      )}
     </div>
   )
 }

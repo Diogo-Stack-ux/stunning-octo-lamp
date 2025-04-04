@@ -1,80 +1,166 @@
 'use client'
 
-import { addInstrumentos } from '@/lib/instrumentos/instrumentos'
-import { useState } from 'react'
+import {
+  addInstrumentos,
+  getInstrumentos,
+  removeInstrumentos,
+  updateInstrumentos,
+} from '@/lib/instrumentos/instrumentos'
+import { useState, useEffect } from 'react'
+
+interface Instrumento {
+  id: number
+  nome: string
+  tipo: string
+}
 
 export default function Page() {
+  const [instrumentos, setInstrumentos] = useState<Instrumento[]>([])
+  const [id, setId] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [nome, setNome] = useState('')
   const [tipo, setTipo] = useState('')
 
-  const handleSubmit = async (event: any) => {
+  const fetchInstrumentos = async () => {
+    try {
+      const data = await getInstrumentos()
+      setInstrumentos(data)
+    } catch (error) {
+      console.error('Erro ao buscar instrumentos:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchInstrumentos()
+  }, [])
+
+  const handleEdit = (instrumento: Instrumento) => {
+    setId(instrumento.id)
+    setNome(instrumento.nome)
+    setTipo(instrumento.tipo)
+    setIsModalOpen(true)
+  }
+
+  const handleRemove = async (instrumento: Instrumento) => {
+    try {
+      await removeInstrumentos(instrumento.id)
+      fetchInstrumentos()
+    } catch (error) {
+      console.error('Erro ao remover instrumento:', error)
+    }
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    await addInstrumentos(nome, tipo)
+    try {
+      if (id === 0) {
+        await addInstrumentos(nome, tipo)
+      } else {
+        await updateInstrumentos(id, nome, tipo)
+      }
+      fetchInstrumentos()
+      closeModal()
+    } catch (error) {
+      console.error('Erro ao salvar instrumento:', error)
+    }
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">INSTRUMENTOS</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="space-y-12">
-          <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold text-gray-900"></h2>
-            <p className="mt-1 text-sm text-gray-600">
-              OS MELHORES INSTRUMENTOS ESTÃO AQUI
-            </p>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">CADASTRO DE ALUNOS</h1>
+      <button
+        onClick={() =>
+          handleEdit({
+            id: 0,
+            nome: '',
+            tipo: '',
+          })
+        }
+        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
+      >
+        ADICIONAR NOVO ALUNO
+      </button>
+      <div className="overflow-x-auto mt-4">
+        <table className="table-auto w-full">
+          <thead>
+            <tr>
+              <th className="border px-4 py-2">Nome</th>
+              <th className="border px-4 py-2">tipo</th>
+              <th className="border px-4 py-2">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {instrumentos.map((instrumento) => (
+              <tr key={instrumento.id} className="hover:bg-gray-100">
+                <td className="border px-4 py-2">{instrumento.nome}</td>
+                <td className="border px-4 py-2">{instrumento.tipo}</td>
+                <td className="border px-4 py-2">
+                  {instrumento.nome?.toString()}
+                </td>
+                <td className="border px-4 py-2">{instrumento.tipo}</td>
+                <td className="border px-4 py-2">
+                  <button
+                    onClick={() => handleEdit(instrumento)}
+                    className="bg-yellow-500 px-3 py-1 text-white rounded-md mr-2"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleRemove(instrumento)}
+                    className="bg-red-500 px-3 py-1 text-white rounded-md"
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="first-name"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Nome
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="name"
-                    value={nome}
-                    onChange={(event) => setNome(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-md w-96">
+            <h2 className="text-lg font-bold mb-4">Novo Instrumento</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="text"
+                placeholder="Nome"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="tipo"
+                value={tipo}
+                onChange={(e) => setTipo(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
 
-              <div className="sm:col-span-4">
-                <label
-                  htmlFor="tipo"
-                  className="block text-sm font-medium text-gray-900"
+              <div className="flex justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="bg-gray-400 px-3 py-1 rounded-md"
                 >
-                  Tipo
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="tipo"
-                    value={tipo}
-                    onChange={(event) => setTipo(event.target.value)}
-                    type="text"
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="bg-indigo-600 px-3 py-1 text-white rounded-md"
+                >
+                  Salvar
+                </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
-
-        <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" className="text-sm font-semibold text-gray-900">
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
-          >
-            Salvar
-          </button>
-        </div>
-      </form>
+      )}
     </div>
   )
 }

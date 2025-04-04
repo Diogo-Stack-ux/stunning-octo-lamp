@@ -1,151 +1,208 @@
 'use client'
 
-import { useState } from 'react'
-import { addProfessor } from '@/lib/professores/professores'
+import { useState, useEffect } from 'react'
+import {
+  addProfessores,
+  getProfessores,
+  removeProfessores,
+  updateProfessores,
+} from '@/lib/professores/professores'
+
+interface Professor {
+  id: number
+  nome: string
+  endereco: string
+  especialidade: string
+  telefone: number
+  email: string
+}
 
 export default function Page() {
+  const [professores, setProfessores] = useState<Professor[]>([])
+  const [id, setId] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [nome, setNome] = useState('')
   const [endereco, setEndereco] = useState('')
   const [especialidade, setEspecialidade] = useState('')
   const [telefone, setTelefone] = useState(0)
   const [email, setEmail] = useState('')
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault()
+  const fetchProfessores = async () => {
+    try {
+      const data = await getProfessores()
+      setProfessores(data)
+    } catch (error) {
+      console.error('Erro ao buscar professores:', error)
+    }
+  }
 
-    addProfessor(nome, endereco, especialidade, telefone, email)
+  useEffect(() => {
+    fetchProfessores()
+  }, [])
+
+  const handleEdit = (professor: Professor) => {
+    setId(professor.id)
+    setNome(professor.nome)
+    setEndereco(professor.endereco)
+    setEspecialidade(professor.especialidade)
+    setTelefone(professor.telefone)
+    setEmail(professor.email)
+    setIsModalOpen(true)
+  }
+
+  const handleRemove = async (professor: Professor) => {
+    try {
+      await removeProfessores(professor.id)
+      fetchProfessores()
+    } catch (error) {
+      console.error('Erro ao remover professor:', error)
+    }
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    try {
+      if (id === 0) {
+        await addProfessores(nome, endereco, especialidade, telefone, email)
+      } else {
+        await updateProfessores(
+          id,
+          nome,
+          endereco,
+          especialidade,
+          telefone,
+          email
+        )
+      }
+      fetchProfessores()
+      closeModal()
+    } catch (error) {
+      console.error('Erro ao salvar professor:', error)
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="space-y-12">
-        <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold text-gray-900">
-            Cadastro de Professor
-          </h2>
-          <p className="mt-1 text-sm text-gray-600">
-            Preencha as informações abaixo para cadastrar o professor.
-          </p>
-        </div>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">CADASTRO DE PROFESOR</h1>
+      <button
+        onClick={() =>
+          handleEdit({
+            id: 0,
+            nome: '',
+            endereco: '',
+            especialidade: '',
+            telefone: 0,
+            email: '',
+          })
+        }
+        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
+      >
+        ADICIONAR NOVO PROFESSOR
+      </button>
+      <div className="overflow-x-auto mt-4">
+        <table className="table-auto w-full">
+          <thead>
+            <tr>
+              <th className="border px-4 py-2">Nome</th>
+              <th className="border px-4 py-2">Endereço</th>
+              <th className="border px-4 py-2">Especialidade</th>
+              <th className="border px-4 py-2">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {professores.map((professor) => (
+              <tr key={professor.id} className="hover:bg-gray-100">
+                <td className="border px-4 py-2">{professor.nome}</td>
+                <td className="border px-4 py-2">{professor.endereco}</td>
+                <td className="border px-4 py-2">{professor.especialidade}</td>
+                <td className="border px-4 py-2">
+                  {professor.nome?.toString()}
+                </td>
+                <td className="border px-4 py-2">{professor.telefone}</td>
+                <td className="border px-4 py-2">
+                  <button
+                    onClick={() => handleEdit(professor)}
+                    className="bg-yellow-500 px-3 py-1 text-white rounded-md mr-2"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleRemove(professor)}
+                    className="bg-red-500 px-3 py-1 text-white rounded-md"
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-        {/* Nome do Professor */}
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div className="sm:col-span-3">
-            <label
-              htmlFor="nome"
-              className="block text-sm font-medium text-gray-900"
-            >
-              Nome
-            </label>
-            <div className="mt-2">
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-md w-96">
+            <h2 className="text-lg font-bold mb-4">NOVO PROFESSOR</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 type="text"
+                placeholder="Nome"
                 value={nome}
-                onChange={(event) => setNome(event.target.value)}
-                id="nome"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                onChange={(e) => setNome(e.target.value)}
+                className="w-full p-2 border rounded-md"
               />
-            </div>
-          </div>
-        </div>
-
-        {/* Endereço */}
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div className="sm:col-span-3">
-            <label
-              htmlFor="endereco"
-              className="block text-sm font-medium text-gray-900"
-            >
-              Endereço
-            </label>
-            <div className="mt-2">
               <input
                 type="text"
+                placeholder="endereço"
                 value={endereco}
-                onChange={(event) => setEndereco(event.target.value)}
-                id="endereco"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                onChange={(e) => setEndereco(e.target.value)}
+                className="w-full p-2 border rounded-md"
               />
-            </div>
-          </div>
-        </div>
-
-        {/* Especialidade */}
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div className="sm:col-span-3">
-            <label
-              htmlFor="especialidade"
-              className="block text-sm font-medium text-gray-900"
-            >
-              Especialidade
-            </label>
-            <div className="mt-2">
               <input
                 type="text"
+                placeholder="especialidade"
                 value={especialidade}
-                onChange={(event) => setEspecialidade(event.target.value)}
-                id="especialidade"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                onChange={(e) => setEspecialidade(e.target.value)}
+                className="w-full p-2 border rounded-md"
               />
-            </div>
-          </div>
-        </div>
-
-        {/* Telefone */}
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div className="sm:col-span-3">
-            <label
-              htmlFor="telefone"
-              className="block text-sm font-medium text-gray-900"
-            >
-              Telefone
-            </label>
-            <div className="mt-2">
               <input
                 type="number"
+                placeholder="telefone"
                 value={telefone}
-                onChange={(event) => setTelefone(parseInt(event.target.value))}
-                id="telefone"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                onChange={(e) => setTelefone(parseInt(e.target.value))}
+                className="w-full p-2 border rounded-md"
               />
-            </div>
-          </div>
-        </div>
-
-        {/* Email */}
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div className="sm:col-span-3">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-900"
-            >
-              Email
-            </label>
-            <div className="mt-2">
               <input
-                type="email"
+                type="text"
+                placeholder="email"
                 value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                id="email"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full p-2 border rounded-md"
               />
-            </div>
+
+              <div className="flex justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="bg-gray-400 px-3 py-1 rounded-md"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="bg-indigo-600 px-3 py-1 text-white rounded-md"
+                >
+                  Salvar
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-      </div>
-
-      {/* Botões de Ação */}
-      <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button type="button" className="text-sm font-semibold text-gray-900">
-          Cancelar
-        </button>
-        <button
-          type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Cadastrar Professor
-        </button>
-      </div>
-    </form>
+      )}
+    </div>
   )
 }

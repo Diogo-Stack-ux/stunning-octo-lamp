@@ -1,9 +1,22 @@
 'use client'
 
-import { addPneus } from '@/lib/pneus/pneus'
-import { useState } from 'react'
+import { addPneus, getPneus, updatePneus, removePneus } from '@/lib/pneus/pneus'
+import { useState, useEffect } from 'react'
+
+interface Pneu {
+  id: number
+  marca: string
+  modelo: string
+  largura: number
+  raio: number
+  especura: number
+  carga_maxima: number
+}
 
 export default function Page() {
+  const [pneus, setPneus] = useState<Pneu[]>([])
+  const [id, setId] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [marca, setMarca] = useState('')
   const [modelo, setModelo] = useState('')
   const [largura, setLargura] = useState(0)
@@ -11,150 +24,190 @@ export default function Page() {
   const [especura, setEspecura] = useState(0)
   const [carga_maxima, setCargaMaxima] = useState(0)
 
-  const handleSubmit = async (event: any) => {
+  const fetchPneus = async () => {
+    try {
+      const data = await getPneus()
+      setPneus(data)
+    } catch (error) {
+      console.error('Erro ao buscar pneus:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchPneus()
+  }, [])
+
+  const handleEdit = (pneu: Pneu) => {
+    setId(pneu.id)
+    setMarca(pneu.marca)
+    setModelo(pneu.modelo)
+    setLargura(pneu.largura)
+    setRaio(pneu.raio)
+    setEspecura(pneu.especura)
+    setCargaMaxima(pneu.carga_maxima)
+    setIsModalOpen(true)
+  }
+
+  const handleRemove = async (pneu: Pneu) => {
+    try {
+      await removePneus(pneu.id)
+      fetchPneus()
+    } catch (error) {
+      console.error('Erro ao remover pneu:', error)
+    }
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    await addPneus(marca, modelo, largura, raio, especura, carga_maxima)
+    try {
+      if (id === 0) {
+        await addPneus(marca, modelo, largura, raio, especura, carga_maxima)
+      } else {
+        await updatePneus(
+          id,
+          marca,
+          modelo,
+          largura,
+          raio,
+          especura,
+          carga_maxima
+        )
+      }
+      fetchPneus()
+      closeModal()
+    } catch (error) {
+      console.error('Erro ao salvar pneu:', error)
+    }
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">PNEUS</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="space-y-12">
-          <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold text-gray-900"></h2>
-            <p className="mt-1 text-sm text-gray-600">
-              AS MELHORS MARCAS ESTÃO AQUI.
-            </p>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">CADASTRO DE ALUNOS</h1>
+      <button
+        onClick={() =>
+          handleEdit({
+            id: 0,
+            marca: '',
+            modelo: '',
+            largura: 0,
+            raio: 0,
+            especura: 0,
+            carga_maxima: 0,
+          })
+        }
+        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
+      >
+        ADICIONAR NOVOS PNEUS
+      </button>
+      <div className="overflow-x-auto mt-4">
+        <table className="table-auto w-full">
+          <thead>
+            <tr>
+              <th className="border px-4 py-2">marco</th>
+              <th className="border px-4 py-2">Modelo</th>
+              <th className="border px-4 py-2">largura</th>
+              <th className="border px-4 py-2">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pneus.map((pneu) => (
+              <tr key={pneu.id} className="hover:bg-gray-100">
+                <td className="border px-4 py-2">{pneu.marca}</td>
+                <td className="border px-4 py-2">{pneu.modelo}</td>
+                <td className="border px-4 py-2">{pneu.largura}</td>
+                <td className="border px-4 py-2">{pneu.marca?.toString()}</td>
+                <td className="border px-4 py-2">{pneu.modelo}</td>
+                <td className="border px-4 py-2">
+                  <button
+                    onClick={() => handleEdit(pneu)}
+                    className="bg-yellow-500 px-3 py-1 text-white rounded-md mr-2"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleRemove(pneu)}
+                    className="bg-red-500 px-3 py-1 text-white rounded-md"
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="first-name"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  MARCA
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="name"
-                    value={marca}
-                    onChange={(event) => setMarca(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-md w-96">
+            <h2 className="text-lg font-bold mb-4">Novo Pneu</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="text"
+                placeholder="Marca"
+                value={marca}
+                onChange={(e) => setMarca(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="modelo"
+                value={modelo}
+                onChange={(e) => setModelo(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="number"
+                placeholder="largura"
+                value={largura}
+                onChange={(e) => setLargura(parseInt(e.target.value))}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="number"
+                placeholder="raio"
+                value={raio}
+                onChange={(e) => setRaio(parseInt(e.target.value))}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="number"
+                placeholder="especura"
+                value={especura}
+                onChange={(e) => setEspecura(parseInt(e.target.value))}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="number"
+                placeholder="carga_maxima"
+                value={carga_maxima}
+                onChange={(e) => setCargaMaxima(parseInt(e.target.value))}
+                className="w-full p-2 border rounded-md"
+              />
 
-              <div className="sm:col-span-4">
-                <label
-                  htmlFor="modelo"
-                  className="block text-sm font-medium text-gray-900"
+              <div className="flex justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="bg-gray-400 px-3 py-1 rounded-md"
                 >
-                  Modelo
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="modelo"
-                    value={modelo}
-                    onChange={(event) => setModelo(event.target.value)}
-                    type="text"
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-
-              <div className="col-span-full">
-                <label
-                  htmlFor="largura"
-                  className="block text-sm font-medium text-gray-900"
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="bg-indigo-600 px-3 py-1 text-white rounded-md"
                 >
-                  largura
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="number"
-                    id="largura"
-                    value={largura}
-                    onChange={(event) =>
-                      setLargura(parseInt(event.target.value))
-                    }
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
+                  Salvar
+                </button>
               </div>
-
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="raio"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Raio
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="number"
-                    id="raio"
-                    value={raio}
-                    onChange={(event) => setRaio(parseInt(event.target.value))}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="especura"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  especura
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id=""
-                    value={especura}
-                    onChange={(event) =>
-                      setEspecura(parseInt(event.target.value))
-                    }
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="carga_maxima"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  carga maxima
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="especura"
-                    value={carga_maxima}
-                    onChange={(event) =>
-                      setCargaMaxima(parseInt(event.target.value))
-                    }
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
-
-        <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" className="text-sm font-semibold text-gray-900">
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
-          >
-            Salvar
-          </button>
-        </div>
-      </form>
+      )}
     </div>
   )
 }

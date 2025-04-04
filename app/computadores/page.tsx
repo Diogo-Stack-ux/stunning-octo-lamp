@@ -1,9 +1,28 @@
 'use client'
 
-import { addComputadores } from '@/lib/computadores/computadores'
-import { useState } from 'react'
+import {
+  addComputadores,
+  getComputadores,
+  removeComputadores,
+  updateComputadores,
+} from '@/lib/computadores/computadores'
+import { useState, useEffect } from 'react'
+
+interface Computador {
+  id: number
+  descricao: string
+  cpu: string
+  memoria: string
+  placa_de_video: string
+  placa_mae: string
+  fonte: string
+  Armazenamento: string
+}
 
 export default function Page() {
+  const [computadores, setComputadores] = useState<Computador[]>([])
+  const [id, setId] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [descricao, setDescricao] = useState('')
   const [cpu, setCpu] = useState('')
   const [memoria, setMemoria] = useState('')
@@ -12,169 +31,209 @@ export default function Page() {
   const [fonte, setfonte] = useState('')
   const [Armazenamento, setArmazenamento] = useState('')
 
-  const handleSubmit = async (event: any) => {
+  const fetchComputadores = async () => {
+    try {
+      const data = await getComputadores()
+      setComputadores(data)
+    } catch (error) {
+      console.error('Erro ao buscar Computador:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchComputadores()
+  }, [])
+
+  const handleEdit = (Computador: Computador) => {
+    setId(Computador.id)
+    setDescricao(Computador.descricao)
+    setCpu(Computador.cpu)
+    setMemoria(Computador.memoria)
+    setPlacaDeVideo(Computador.placa_de_video)
+    setPlacaMae(Computador.placa_mae)
+    setfonte(Computador.fonte)
+    setArmazenamento(Computador.Armazenamento)
+    setIsModalOpen(true)
+  }
+
+  const handleRemove = async (computador: Computador) => {
+    try {
+      await removeComputadores(computador.id)
+      fetchComputadores()
+    } catch (error) {
+      console.error('Erro ao remover computador:', error)
+    }
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    await addComputadores(
-      descricao,
-      cpu,
-      memoria,
-      placa_de_video,
-      placa_mae,
-      fonte,
-      Armazenamento
-    )
+    try {
+      if (id === 0) {
+        await addComputadores(
+          descricao,
+          cpu,
+          memoria,
+          placa_de_video,
+          placa_mae,
+          fonte,
+          Armazenamento
+        )
+      } else {
+        await updateComputadores(
+          id,
+          descricao,
+          cpu,
+          memoria,
+          placa_de_video,
+          placa_mae,
+          fonte,
+          Armazenamento
+        )
+      }
+      fetchComputadores()
+      closeModal()
+    } catch (error) {
+      console.error('Erro ao salvar computador:', error)
+    }
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">computadores</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="space-y-12">
-          <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold text-gray-900"></h2>
-            <p className="mt-1 text-sm text-gray-600">
-              notbooks, e computadores.
-            </p>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">CADASTRO DE COMPUTADORES</h1>
+      <button
+        onClick={() =>
+          handleEdit({
+            id: 0,
+            descricao: '',
+            cpu: '',
+            memoria: '',
+            placa_de_video: '',
+            placa_mae: '',
+            fonte: '',
+            Armazenamento: '',
+          })
+        }
+        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
+      >
+        ADICIONAR NOVO COMPUTADOR
+      </button>
+      <div className="overflow-x-auto mt-4">
+        <table className="table-auto w-full">
+          <thead>
+            <tr>
+              <th className="border px-4 py-2">descricao</th>
+              <th className="border px-4 py-2">cpu</th>
+              <th className="border px-4 py-2">memoria</th>
+              <th className="border px-4 py-2">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {computadores.map((computador) => (
+              <tr key={computador.id} className="hover:bg-gray-100">
+                <td className="border px-4 py-2">{computador.descricao}</td>
+                <td className="border px-4 py-2">{computador.cpu}</td>
+                <td className="border px-4 py-2">{computador.memoria}</td>
+                <td className="border px-4 py-2">
+                  {computador.placa_de_video?.toString()}
+                </td>
+                <td className="border px-4 py-2">{computador.placa_mae}</td>
+                <td className="border px-4 py-2">
+                  <button
+                    onClick={() => handleEdit(computador)}
+                    className="bg-yellow-500 px-3 py-1 text-white rounded-md mr-2"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleRemove(computador)}
+                    className="bg-red-500 px-3 py-1 text-white rounded-md"
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="descricao"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Descricao
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="descricao"
-                    value={descricao}
-                    onChange={(event) => setDescricao(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-md w-96">
+            <h2 className="text-lg font-bold mb-4">Novo computador</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="text"
+                placeholder="Nome"
+                value={descricao}
+                onChange={(e) => setDescricao(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="cpu"
+                value={cpu}
+                onChange={(e) => setCpu(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="memoria"
+                value={memoria}
+                onChange={(e) => setMemoria(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                value={placa_de_video}
+                onChange={(e) => setPlacaDeVideo(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="placa mae"
+                value={placa_mae}
+                onChange={(e) => setPlacaMae(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="fonte"
+                value={fonte}
+                onChange={(e) => setfonte(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="armazenamento"
+                value={Armazenamento}
+                onChange={(e) => setArmazenamento(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
 
-              <div className="sm:col-span-4">
-                <label
-                  htmlFor="cpu"
-                  className="block text-sm font-medium text-gray-900"
+              <div className="flex justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="bg-gray-400 px-3 py-1 rounded-md"
                 >
-                  cpu
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="cpu"
-                    value={cpu}
-                    onChange={(event) => setCpu(event.target.value)}
-                    type="text"
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-
-              <div className="col-span-full">
-                <label
-                  htmlFor="memoria"
-                  className="block text-sm font-medium text-gray-900"
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="bg-indigo-600 px-3 py-1 text-white rounded-md"
                 >
-                  memoria
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="memoria"
-                    value={memoria}
-                    onChange={(event) => setMemoria(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
+                  Salvar
+                </button>
               </div>
-
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="placa_de_video"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Placa de video
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="placa_de_video"
-                    value={placa_de_video}
-                    onChange={(event) => setPlacaDeVideo(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="placa_mae"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  placa mae
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="placa_mae"
-                    value={placa_mae}
-                    onChange={(event) => setPlacaMae(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="fonte"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Fonte
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="fonte"
-                    value={fonte}
-                    onChange={(event) => setfonte(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="armazenamento"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Armazenamento
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="armazenamento"
-                    value={Armazenamento}
-                    onChange={(event) => setArmazenamento(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
-
-        <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" className="text-sm font-semibold text-gray-900">
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
-          >
-            Salvar
-          </button>
-        </div>
-      </form>
+      )}
     </div>
   )
 }

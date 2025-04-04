@@ -1,144 +1,214 @@
 'use client'
 
-import { addInstrutores } from '@/lib/instrutores/instrutores'
-import { useState } from 'react'
+import {
+  addInstrutores,
+  getInstrutores,
+  updateInstrutores,
+  removeInstrutores,
+} from '@/lib/instrutores/instrutores'
+import { useState, useEffect } from 'react'
+
+interface Instrutor {
+  id: number
+  nome: string
+  especialidade: string
+  endereco: string
+  data_de_nascimento: Date
+  comum: string
+}
 
 export default function Page() {
-  const [nome, setNome] = useState('diogo')
+  const [instrutores, setInstrutores] = useState<Instrutor[]>([])
+  const [id, setId] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [nome, setNome] = useState('')
   const [especialidade, setEspecialidade] = useState('')
   const [endereco, setEndereco] = useState('')
   const [data_de_nascimento, setDataDeNascimento] = useState('')
   const [comum, setComum] = useState('')
 
-  const handleSubmit = async (event: any) => {
+  const fetchInstrutores = async () => {
+    try {
+      const data = await getInstrutores()
+      setInstrutores(data)
+    } catch (error) {
+      console.error('Erro ao buscar instrutores:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchInstrutores()
+  }, [])
+
+  const handleEdit = (Instrutor: Instrutor) => {
+    setId(Instrutor.id)
+    setNome(Instrutor.nome)
+    setEspecialidade(Instrutor.especialidade)
+    setEndereco(Instrutor.endereco)
+    setDataDeNascimento(Instrutor.data_de_nascimento)
+    setComum(Instrutor.comum)
+    setIsModalOpen(true)
+  }
+
+  const handleRemove = async (Instrutor: Instrutor) => {
+    try {
+      await removeInstrutores(Instrutor.id)
+      fetchInstrutores()
+    } catch (error) {
+      console.error('Erro ao remover instrutor:', error)
+    }
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    await addInstrutores(
-      nome,
-      especialidade,
-      endereco,
-      data_de_nascimento,
-      comum
-    )
+    try {
+      if (id === 0) {
+        await addInstrutores(
+          nome,
+          especialidade,
+          endereco,
+          data_de_nascimento,
+          comum
+        )
+      } else {
+        await updateInstrutores(
+          id,
+          nome,
+          especialidade,
+          endereco,
+          data_de_nascimento,
+          comum
+        )
+      }
+      fetchInstrutores()
+      closeModal()
+    } catch (error) {
+      console.error('Erro ao salvar instrutor:', error)
+    }
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Esta é a página dos instrutores</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="space-y-12">
-          <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold text-gray-900"></h2>
-            <p className="mt-1 text-sm text-gray-600">
-              CONHEÇA NOSSA EQUIPE DE PROFESSORES.
-            </p>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">CADASTRO DE INSTRUTORES</h1>
+      <button
+        onClick={() =>
+          handleEdit({
+            id: 0,
+            nome: '',
+            especialidade: '',
+            endereco: '',
+            data_de_nascimento: '',
+            comum: '',
+          })
+        }
+        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
+      >
+        ADICIONAR NOVO INSTRUTOR
+      </button>
+      <div className="overflow-x-auto mt-4">
+        <table className="table-auto w-full">
+          <thead>
+            <tr>
+              <th className="border px-4 py-2">Nome</th>
+              <th className="border px-4 py-2">Especialidade</th>
+              <th className="border px-4 py-2">Endereço</th>
+              <th className="border px-4 py-2">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {instrutores.map((instrutor) => (
+              <tr key={instrutor.id} className="hover:bg-gray-100">
+                <td className="border px-4 py-2">{instrutor.nome}</td>
+                <td className="border px-4 py-2">{instrutor.especialidade}</td>
+                <td className="border px-4 py-2">{instrutor.endereco}</td>
+                <td className="border px-4 py-2">
+                  {instrutor.data_de_nascimento?.toDateString()}
+                </td>
+                <td className="border px-4 py-2">{instrutor.especialidade}</td>
+                <td className="border px-4 py-2">
+                  <button
+                    onClick={() => handleEdit(instrutor)}
+                    className="bg-yellow-500 px-3 py-1 text-white rounded-md mr-2"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleRemove(instrutor)}
+                    className="bg-red-500 px-3 py-1 text-white rounded-md"
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="first-name"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Nome
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="name"
-                    value={nome}
-                    onChange={(event) => setNome(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-md w-96">
+            <h2 className="text-lg font-bold mb-4">Novo Instrutor</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="text"
+                placeholder="Nome"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="Especialidade"
+                value={especialidade}
+                onChange={(e) => setEspecialidade(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="Endereço"
+                value={endereco}
+                onChange={(e) => setEndereco(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="date"
+                placeholder="data de nascimento"
+                value={data_de_nascimento}
+                onChange={(e) => setDataDeNascimento(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="comum"
+                value={comum}
+                onChange={(e) => setComum(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
 
-              <div className="sm:col-span-4">
-                <label
-                  htmlFor="especialidade"
-                  className="block text-sm font-medium text-gray-900"
+              <div className="flex justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="bg-gray-400 px-3 py-1 rounded-md"
                 >
-                  especialidade
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="especialidade"
-                    value={especialidade}
-                    onChange={(event) => setEspecialidade(event.target.value)}
-                    type="text"
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-
-              <div className="col-span-full">
-                <label
-                  htmlFor="endereco"
-                  className="block text-sm font-medium text-gray-900"
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="bg-indigo-600 px-3 py-1 text-white rounded-md"
                 >
-                  Endereço
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="endereco"
-                    value={endereco}
-                    onChange={(event) => setEndereco(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
+                  Salvar
+                </button>
               </div>
-
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="data_De_nascimento"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Data de nascimento
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="date"
-                    id="data_nascimento"
-                    value={data_de_nascimento}
-                    onChange={(event) =>
-                      setDataDeNascimento(event.target.value)
-                    }
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="comum"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  comum
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="comum"
-                    value={comum}
-                    onChange={(event) => setComum(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
-
-        <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" className="text-sm font-semibold text-gray-900">
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
-          >
-            Salvar
-          </button>
-        </div>
-      </form>
+      )}
     </div>
   )
 }

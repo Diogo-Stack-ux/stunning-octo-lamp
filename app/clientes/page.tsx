@@ -1,168 +1,212 @@
 'use client'
 
-import { addClientes } from '@/lib/clientes/clientes'
-import { useState } from 'react'
+import {
+  addClientes,
+  getClientes,
+  removeClientes,
+  updateClientes,
+} from '@/lib/clientes/clientes'
+import { useEffect, useState } from 'react'
+
+interface Cliente {
+  id: number
+  primeiroNome: string
+  enderecoDeEmail: string
+  endereco: string
+  dataDeNascimento: string
+  numeroDeTelefone: number
+  cpf: string
+}
 
 export default function Page() {
-  const [primeiro_nome, setPrimeiroNome] = useState('')
-  const [endereco_de_email, setEnderecoDeEmail] = useState('')
+  const [cliente, setClientes] = useState<Cliente[]>([])
+  const [primeiroNome, setPrimeiroNome] = useState('')
+  const [enderecoDeEmail, setEnderecoDeEmail] = useState('')
   const [endereco, setEndereco] = useState('')
-  const [data_de_nascimento, setDataDeNascimento] = useState('data')
-  const [numero_de_telefone, setNumeroDeTelefone] = useState(0)
+  const [dataDeNascimento, setDataDeNascimento] = useState('')
+  const [numeroDeTelefone, setNumeroDeTelefone] = useState(0)
   const [cpf, setCpf] = useState('')
+  const [id, setId] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const handleSubmit = async (event: any) => {
+  const fetchClientes = async () => {
+    try {
+      const data = await getClientes()
+      setClientes(data)
+    } catch (error) {
+      console.error('Erro ao buscar clientes:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchClientes()
+  }, [])
+
+  const handleEdit = (cliente: Cliente) => {
+    setId(cliente.id)
+    setPrimeiroNome(cliente.primeiroNome)
+    setEnderecoDeEmail(cliente.enderecoDeEmail)
+    setEndereco(cliente.endereco)
+    setDataDeNascimento(cliente.dataDeNascimento)
+    setNumeroDeTelefone(cliente.numeroDeTelefone)
+    setCpf(cliente.cpf)
+    setIsModalOpen(true)
+  }
+
+  const handleRemove = async (cliente: Cliente) => {
+    try {
+      await removeClientes(cliente.id)
+      fetchClientes()
+    } catch (error) {
+      console.error('Erro ao remover cliente:', error)
+    }
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    await addClientes(
-      primeiro_nome,
-      endereco_de_email,
-      endereco,
-      data_de_nascimento,
-      numero_de_telefone,
-      cpf
-    )
+    try {
+      if (id === 0) {
+        await addClientes(
+          primeiroNome,
+          enderecoDeEmail,
+          endereco,
+          dataDeNascimento,
+          numeroDeTelefone,
+          cpf
+        )
+      } else {
+        await updateClientes(
+          id,
+          primeiroNome,
+          enderecoDeEmail,
+          endereco,
+          dataDeNascimento,
+          numeroDeTelefone,
+          cpf
+        )
+      }
+      fetchClientes()
+      closeModal()
+    } catch (error) {
+      console.error('Erro ao salvar cliente:', error)
+    }
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Esta é a página do cliente</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="space-y-12">
-          <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold text-gray-900"></h2>
-            <p className="mt-1 text-sm text-gray-600">
-              Use um endereço permanente onde você possa receber
-              correspondência.
-            </p>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">CADASTRO DE ALUNOS</h1>
+      <button
+        onClick={() =>
+          handleEdit({
+            id: 0,
+            primeiroNome: '',
+            enderecoDeEmail: '',
+            endereco: '',
+            dataDeNascimento: new Date(),
+            numeroDeTelefone: 0,
+            cpf: '',
+          })
+        }
+        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
+      >
+        ADICIONAR NOVO ALUNO
+      </button>
+      <div className="overflow-x-auto mt-4">
+        <table className="table-auto w-full">
+          <thead>
+            <tr>
+              <th className="border px-4 py-2">Primeiro Nome</th>
+              <th className="border px-4 py-2">Endereço de Email</th>
+              <th className="border px-4 py-2">Data de Nascimento</th>
+              <th className="border px-4 py-2">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cliente.map((cliente) => (
+              <tr key={cliente.id} className="hover:bg-gray-100">
+                <td className="border px-4 py-2">{cliente.primeiroNome}</td>
+                <td className="border px-4 py-2">{cliente.enderecoDeEmail}</td>
+                <td className="border px-4 py-2">{cliente.endereco}</td>
+                <td className="border px-4 py-2">
+                  {cliente.dataDeNascimento?.toDateString()}
+                </td>
+                <td className="border px-4 py-2">{cliente.numeroDeTelefone}</td>
+                <td className="border px-4 py-2">
+                  <button
+                    onClick={() => handleEdit(cliente)}
+                    className="bg-yellow-500 px-3 py-1 text-white rounded-md mr-2"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleRemove(cliente)}
+                    className="bg-red-500 px-3 py-1 text-white rounded-md"
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="first-name"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Primeiro Nome
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="first-name"
-                    value={primeiro_nome}
-                    onChange={(event) => setPrimeiroNome(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-md w-96">
+            <h2 className="text-lg font-bold mb-4">Novo cliente</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="text"
+                placeholder="primeiro Nome"
+                value={primeiroNome}
+                onChange={(e) => setPrimeiroNome(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="Endereço de Email"
+                value={enderecoDeEmail}
+                onChange={(e) => setEnderecoDeEmail(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="date"
+                placeholder="Data de nascimento"
+                value={dataDeNascimento}
+                onChange={(e) => setDataDeNascimento(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+              <input
+                type="number"
+                value={numeroDeTelefone}
+                onChange={(e) => setNumeroDeTelefone(parseInt(e.target.value))}
+                className="w-full p-2 border rounded-md"
+              />
 
-              <div className="sm:col-span-4">
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-900"
+              <div className="flex justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="bg-gray-400 px-3 py-1 rounded-md"
                 >
-                  Endereço de email
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="email"
-                    value={endereco_de_email}
-                    onChange={(event) => setEnderecoDeEmail(event.target.value)}
-                    type="email"
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-
-              <div className="col-span-full">
-                <label
-                  htmlFor="endereco"
-                  className="block text-sm font-medium text-gray-900"
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="bg-indigo-600 px-3 py-1 text-white rounded-md"
                 >
-                  Endereço
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="endereco"
-                    value={endereco}
-                    onChange={(event) => setEndereco(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
+                  Salvar
+                </button>
               </div>
-
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="data_nascimento"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Data de nascimento
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="date"
-                    id="data_nascimento"
-                    value={data_de_nascimento}
-                    onChange={(event) =>
-                      setDataDeNascimento(event.target.valueAsDate)
-                    }
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="telefone"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Número de telefone
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="telefone"
-                    value={numero_de_telefone}
-                    onChange={(event) =>
-                      setNumeroDeTelefone(parseInt(event.target.value))
-                    }
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="cpf"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  CPF
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="cpf"
-                    value={cpf}
-                    onChange={(event) => setCpf(event.target.value)}
-                    className="block w-full rounded-md border-gray-300 p-2 text-gray-900 focus:border-indigo-600"
-                  />
-                </div>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
-
-        <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" className="text-sm font-semibold text-gray-900">
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
-          >
-            Salvar
-          </button>
-        </div>
-      </form>
+      )}
     </div>
   )
 }
