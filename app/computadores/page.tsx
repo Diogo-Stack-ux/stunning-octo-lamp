@@ -13,10 +13,10 @@ interface Computador {
   descricao: string
   cpu: string
   memoria: string
-  placa_de_video: string
+  placa_video: string
   placa_mae: string
   fonte: string
-  Armazenamento: string
+  armazenamento: string
 }
 
 export default function Page() {
@@ -26,10 +26,10 @@ export default function Page() {
   const [descricao, setDescricao] = useState('')
   const [cpu, setCpu] = useState('')
   const [memoria, setMemoria] = useState('')
-  const [placa_de_video, setPlacaDeVideo] = useState('')
+  const [placa_video, setPlacaDeVideo] = useState('')
   const [placa_mae, setPlacaMae] = useState('')
   const [fonte, setfonte] = useState('')
-  const [Armazenamento, setArmazenamento] = useState('')
+  const [armazenamento, setArmazenamento] = useState('')
 
   const fetchComputadores = async () => {
     try {
@@ -49,10 +49,10 @@ export default function Page() {
     setDescricao(Computador.descricao)
     setCpu(Computador.cpu)
     setMemoria(Computador.memoria)
-    setPlacaDeVideo(Computador.placa_de_video)
+    setPlacaDeVideo(Computador.placa_video)
     setPlacaMae(Computador.placa_mae)
     setfonte(Computador.fonte)
-    setArmazenamento(Computador.Armazenamento)
+    setArmazenamento(Computador.armazenamento)
     setIsModalOpen(true)
   }
 
@@ -77,10 +77,10 @@ export default function Page() {
           descricao,
           cpu,
           memoria,
-          placa_de_video,
+          placa_video,
           placa_mae,
           fonte,
-          Armazenamento
+          armazenamento
         )
       } else {
         await updateComputadores(
@@ -88,10 +88,10 @@ export default function Page() {
           descricao,
           cpu,
           memoria,
-          placa_de_video,
+          placa_video,
           placa_mae,
           fonte,
-          Armazenamento
+          armazenamento
         )
       }
       fetchComputadores()
@@ -111,10 +111,10 @@ export default function Page() {
             descricao: '',
             cpu: '',
             memoria: '',
-            placa_de_video: '',
+            placa_video: '',
             placa_mae: '',
             fonte: '',
-            Armazenamento: '',
+            armazenamento: '',
           })
         }
         className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
@@ -138,7 +138,7 @@ export default function Page() {
                 <td className="border px-4 py-2">{computador.cpu}</td>
                 <td className="border px-4 py-2">{computador.memoria}</td>
                 <td className="border px-4 py-2">
-                  {computador.placa_de_video?.toString()}
+                  {computador.placa_video?.toString()}
                 </td>
                 <td className="border px-4 py-2">{computador.placa_mae}</td>
                 <td className="border px-4 py-2">
@@ -189,7 +189,8 @@ export default function Page() {
               />
               <input
                 type="text"
-                value={placa_de_video}
+                placeholder="placa de video"
+                value={placa_video}
                 onChange={(e) => setPlacaDeVideo(e.target.value)}
                 className="w-full p-2 border rounded-md"
               />
@@ -210,7 +211,7 @@ export default function Page() {
               <input
                 type="text"
                 placeholder="armazenamento"
-                value={Armazenamento}
+                value={armazenamento}
                 onChange={(e) => setArmazenamento(e.target.value)}
                 className="w-full p-2 border rounded-md"
               />

@@ -4,7 +4,7 @@ export async function addAlunos(
   nome: string,
   nome_do_pai: string,
   nome_da_mae: string,
-  data_de_nascimento: Date,
+  data_de_nascimento: string,
   cor_da_pele: string
 ) {
   await pool.query(
@@ -32,16 +32,16 @@ export async function updateAlunos(
   nome: string,
   nome_do_pai: string,
   nome_da_mae: string,
-  data_de_nascimento: Date,
+  data_de_nascimento: string,
   cor_da_pele: string
 ) {
   await pool.query(
     `update alunos set 
-            nome = '$1',
-            nome do pai = '$2',
-            nome da mae = '$3',
-            data de nascimento = '$4}',
-            cor da pele = '$5'
+            nome = $1,
+            nome_do_pai = $2,
+            nome_da_mae = $3,
+            data_de_nascimento = $4,
+            cor_da_pele = $5
         where id = $6`,
     [nome, nome_do_pai, nome_da_mae, data_de_nascimento, cor_da_pele, id]
   )

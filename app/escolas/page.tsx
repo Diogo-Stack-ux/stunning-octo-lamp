@@ -12,7 +12,7 @@ interface Escola {
   id: number
   nome: string
   endereco: string
-  quantidadeDeAlunos: number
+  quantidade_alunos: number
   telefone: string
 }
 
@@ -22,7 +22,7 @@ export default function Page() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [nome, setNome] = useState('')
   const [endereco, setEndereco] = useState('')
-  const [quantidadeDeAlunos, setQuantidadeAlunos] = useState(0)
+  const [quantidade_alunos, setQuantidadeAlunos] = useState(0)
   const [telefone, setTelefone] = useState('')
 
   const fetchEscolas = async () => {
@@ -42,7 +42,7 @@ export default function Page() {
     setId(escola.id)
     setNome(escola.nome)
     setEndereco(escola.endereco)
-    setQuantidadeAlunos(escola.quantidadeDeAlunos)
+    setQuantidadeAlunos(escola.quantidade_alunos)
     setTelefone(escola.telefone)
     setIsModalOpen(true)
   }
@@ -64,9 +64,9 @@ export default function Page() {
     event.preventDefault()
     try {
       if (id === 0) {
-        await addEscolas(nome, endereco, quantidadeDeAlunos, telefone)
+        await addEscolas(nome, endereco, quantidade_alunos, telefone)
       } else {
-        await updateEscolas(id, nome, endereco, quantidadeDeAlunos, telefone)
+        await updateEscolas(id, nome, endereco, quantidade_alunos, telefone)
       }
       fetchEscolas()
       closeModal()
@@ -84,7 +84,7 @@ export default function Page() {
             id: 0,
             nome: '',
             endereco: '',
-            quantidadeDeAlunos: 0,
+            quantidade_alunos: 0,
             telefone: '',
           })
         }
@@ -107,9 +107,7 @@ export default function Page() {
               <tr key={escola.id} className="hover:bg-gray-100">
                 <td className="border px-4 py-2">{escola.nome}</td>
                 <td className="border px-4 py-2">{escola.endereco}</td>
-                <td className="border px-4 py-2">
-                  {escola.quantidadeDeAlunos}
-                </td>
+                <td className="border px-4 py-2">{escola.quantidade_alunos}</td>
                 <td className="border px-4 py-2">
                   {escola.telefone?.toString()}
                 </td>
@@ -155,8 +153,8 @@ export default function Page() {
               />
               <input
                 type="number"
-                placeholder="quantidade de alunos"
-                value={quantidadeDeAlunos}
+                placeholder="quantidade alunos"
+                value={quantidade_alunos}
                 onChange={(e) => setQuantidadeAlunos(e.target.valueAsNumber)}
                 className="w-full p-2 border rounded-md"
               />

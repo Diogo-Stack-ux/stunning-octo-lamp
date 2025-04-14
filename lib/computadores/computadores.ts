@@ -46,19 +46,19 @@ export async function updateComputadores(
   armazenamento: string
 ) {
   await pool.query(
-    `update alunos set 
-            descricao = '$1',
-            cpu = '$2',
-            memoria = '$3',
-            placa_video = '$4',
-            placa_mae = '$5',
-            fonte = '$6',
-            armazenamento = '$7'
+    `update computadores set 
+            descricao = $1,
+            cpu = $2,
+            memoria = $3,
+            placa_video = $4,
+            placa_mae = $5,
+            fonte = $6,
+            armazenamento = $7
         where id = $8`,
     [descricao, cpu, memoria, placaVideo, placaMae, fonte, armazenamento, id]
   )
 }
 
 export async function removeComputadores(id: number) {
-  await pool.query(`delete from computadores where id = ${id}`)
+  await pool.query(`delete from computadores where id = $1`, [id])
 }

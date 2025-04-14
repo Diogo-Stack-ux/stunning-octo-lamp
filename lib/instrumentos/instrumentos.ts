@@ -24,8 +24,8 @@ export async function updateInstrumentos(
 ) {
   await pool.query(
     `update instrumentos set 
-            nome = '$1',
-            tipo = '$2',
+            nome = $1,
+            tipo = $2
         
         where id = $3`,
     [nome, tipo, id]
@@ -33,5 +33,5 @@ export async function updateInstrumentos(
 }
 
 export async function removeInstrumentos(id: number) {
-  await pool.query(`delete from instrumentos where id = ${id}`)
+  await pool.query(`delete from instrumentos where id = $1`[id])
 }

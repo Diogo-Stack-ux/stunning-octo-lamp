@@ -76,7 +76,7 @@ export default function Page() {
   }
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">CADASTRO DE ALUNOS</h1>
+      <h1 className="text-2xl font-bold mb-4">CADASTRO DE CURRICULO</h1>
       <button
         onClick={() =>
           handleEdit({
@@ -89,7 +89,7 @@ export default function Page() {
         }
         className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
       >
-        ADICIONAR NOVO CURRICULO
+        ADICIONAR NOVO CURRICULOS
       </button>
       <div className="overflow-x-auto mt-4">
         <table className="table-auto w-full">
@@ -97,7 +97,6 @@ export default function Page() {
             <tr>
               <th className="border px-4 py-2">Nome</th>
               <th className="border px-4 py-2">Endereço</th>
-              <th className="border px-4 py-2">Curriculo</th>
               <th className="border px-4 py-2">Ações</th>
             </tr>
           </thead>
@@ -106,11 +105,6 @@ export default function Page() {
               <tr key={curriculo.id} className="hover:bg-gray-100">
                 <td className="border px-4 py-2">{curriculo.nome}</td>
                 <td className="border px-4 py-2">{curriculo.endereco}</td>
-                <td className="border px-4 py-2">{curriculo.curriculo}</td>
-                <td className="border px-4 py-2">
-                  {curriculo.habilidades?.toString()}
-                </td>
-                <td className="border px-4 py-2">{curriculo.habilidades}</td>
                 <td className="border px-4 py-2">
                   <button
                     onClick={() => handleEdit(curriculo)}
@@ -134,7 +128,7 @@ export default function Page() {
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-md w-96">
-            <h2 className="text-lg font-bold mb-4">Novo Aluno</h2>
+            <h2 className="text-lg font-bold mb-4">Novo Currilo</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 type="text"

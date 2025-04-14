@@ -35,15 +35,15 @@ export async function updateAnimais(
 ) {
   await pool.query(
     `update animais set 
-            nome = '$1',
-            nome cientifico = '$2',
-            especie = '$3',
-            grupo = '$4',
+            nome = $1,
+            nome_cientifico = $2,
+            especie = $3,
+            grupo = $4
         where id = $5`,
     [nome, nome_cientifico, especie, grupo, id]
   )
 }
 
 export async function removeAnimais(id: number) {
-  await pool.query(`delete from animais where id = ${id}`)
+  await pool.query(`delete from animais where id = $1`, [id])
 }

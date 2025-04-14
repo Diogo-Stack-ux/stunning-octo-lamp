@@ -67,18 +67,17 @@ export async function updateApartamentos(
   preco_de_venda: number
 ) {
   await pool.query(
-    `update animais set 
-            tipo = '$1',
-            condominio = '$2',
-            area privativa = '$3',
-            area comum = '$4',
-            quantidade de quartos = '$5'
-            quantidade de banheiros = '$6',
-            tem churrasqueira = '$7',
-            tem piscina = '$8',
-            valor do condominio = '$9',
-            preco de venda = '$10',
-
+    `update apartamentos set 
+            tipo = $1,
+            condominio = $2,
+            area_privativa = $3,
+            area_comum = $4,
+            quantidade_de_quartos = $5,
+            quantidade_de_banheiros = $6,
+            tem_churrasqueira = $7,
+            tem_piscina = $8,
+            valor_do_condominio = $9,
+            preco_de_venda = $10
         where id = $11`,
     [
       tipo,
@@ -97,5 +96,5 @@ export async function updateApartamentos(
 }
 
 export async function removeApartamentos(id: number) {
-  await pool.query(`delete from apartamentos where id = ${id}`)
+  await pool.query(`delete from apartamentos where id = $1`, [id])
 }

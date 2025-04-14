@@ -12,7 +12,7 @@ interface Usuario {
   id: number
   nome: string
   apelido: string
-  endereco_de_email: string
+  email: string
   senha: string
 }
 
@@ -22,7 +22,7 @@ export default function Page() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [nome, setNome] = useState('')
   const [apelido, setApelido] = useState('')
-  const [endereco_de_email, setEnderecoDeEmail] = useState('')
+  const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
 
   const fetchUsuarios = async () => {
@@ -42,7 +42,7 @@ export default function Page() {
     setId(Usuario.id)
     setNome(Usuario.nome)
     setApelido(Usuario.apelido)
-    setEnderecoDeEmail(Usuario.endereco_de_email)
+    setEmail(Usuario.email)
     setSenha(Usuario.senha)
     setIsModalOpen(true)
   }
@@ -64,9 +64,9 @@ export default function Page() {
     event.preventDefault()
     try {
       if (id === 0) {
-        await addUsuarios(nome, apelido, endereco_de_email, senha)
+        await addUsuarios(nome, apelido, email, senha)
       } else {
-        await updateUsuarios(id, nome, apelido, endereco_de_email, senha)
+        await updateUsuarios(id, nome, apelido, email, senha)
       }
       fetchUsuarios()
       closeModal()
@@ -84,7 +84,7 @@ export default function Page() {
             id: 0,
             nome: '',
             apelido: '',
-            endereco_de_email: '',
+            email: '',
             senha: '',
           })
         }
@@ -98,7 +98,7 @@ export default function Page() {
             <tr>
               <th className="border px-4 py-2">Nome</th>
               <th className="border px-4 py-2">apelido</th>
-              <th className="border px-4 py-2">Endereço de email</th>
+              <th className="border px-4 py-2">email</th>
               <th className="border px-4 py-2">Ações</th>
             </tr>
           </thead>
@@ -107,9 +107,7 @@ export default function Page() {
               <tr key={usuario.id} className="hover:bg-gray-100">
                 <td className="border px-4 py-2">{usuario.nome}</td>
                 <td className="border px-4 py-2">{usuario.apelido}</td>
-                <td className="border px-4 py-2">
-                  {usuario.endereco_de_email}
-                </td>
+                <td className="border px-4 py-2">{usuario.email}</td>
                 <td className="border px-4 py-2">
                   {usuario.senha?.toString()}
                 </td>
@@ -155,9 +153,9 @@ export default function Page() {
               />
               <input
                 type="text"
-                placeholder="endereco_de_email"
-                value={endereco_de_email}
-                onChange={(e) => setEnderecoDeEmail(e.target.value)}
+                placeholder="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full p-2 border rounded-md"
               />
               <input

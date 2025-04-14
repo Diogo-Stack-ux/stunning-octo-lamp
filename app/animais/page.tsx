@@ -23,7 +23,7 @@ export default function Page() {
   const [especie, setEspecie] = useState('')
   const [grupo, setGrupo] = useState('')
   const [id, setId] = useState(0)
-  const [isModalOpen, setIsModalOpen] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const fetchAnimais = async () => {
     try {

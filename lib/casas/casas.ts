@@ -14,7 +14,8 @@ export async function addCasas(
   preco_venda: number
 ) {
   await pool.query(
-    `insert into casas (tipo,
+    `insert into casas (
+    tipo,
     endereco,
     area_terreno,
     area_construida,
@@ -74,18 +75,18 @@ export async function updateCasas(
   preco_venda: number
 ) {
   await pool.query(
-    `update animais set 
-            tipo = '$1',
-            endereco = '$2',
-            area_terreno = '$3',
-            area_construida = '$4',
-            quantidade_quartos = '$5',
-            quantidade_banheiros = '$6',
-            tem_edicula = '$7',
-            tem_churrasqueira = '$8',
-            tem_piscina = '$9',
-            valor_condominio = '$10',
-            preco_venda = '$11'
+    `update casas set 
+            tipo = $1,
+            endereco = $2,
+            area_terreno = $3,
+            area_construida = $4,
+            quantidade_quartos = $5,
+            quantidade_banheiros = $6,
+            tem_edicula = $7,
+            tem_churrasqueira = $8,
+            tem_piscina = $9,
+            valor_condominio = $10,
+            preco_venda = $11
 
             where id = $12`,
     [
@@ -106,5 +107,5 @@ export async function updateCasas(
 }
 
 export async function removeCasas(id: number) {
-  await pool.query(`delete from casa where id = $1`, [id])
+  await pool.query(`delete from casas where id = $1`, [id])
 }

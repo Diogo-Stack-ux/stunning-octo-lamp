@@ -144,7 +144,6 @@ export default function Page() {
             <tr>
               <th className="border px-4 py-2">Tipo</th>
               <th className="border px-4 py-2">condominio</th>
-              <th className="border px-4 py-2">Area Privativa </th>
               <th className="border px-4 py-2">Ações</th>
             </tr>
           </thead>
@@ -153,10 +152,6 @@ export default function Page() {
               <tr key={apartamento.id} className="hover:bg-gray-100">
                 <td className="border px-4 py-2">{apartamento.tipo}</td>
                 <td className="border px-4 py-2">{apartamento.condominio}</td>
-                <td className="border px-4 py-2">
-                  {apartamento.area_privativa}
-                </td>
-                <td className="border px-4 py-2">{apartamento.area_comum}</td>
                 <td className="border px-4 py-2">
                   <button
                     onClick={() => handleEdit(apartamento)}
@@ -264,30 +259,31 @@ export default function Page() {
                     className="w-full rounded-md border-gray-300 px-3 py-1.5"
                   />
                 </div>
-                <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-900">
+                <div className="col-span-2 flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={tem_churrasqueira}
+                    onChange={(e) => setTemChurrasqueira(e.target.checked)}
+                    className="rounded-md border-gray-300"
+                  />
+                  <label className="text-sm font-medium text-gray-900">
                     Tem Churrasqueira
                   </label>
-                  <input
-                    type="boolean"
-                    value={tem_churrasqueira}
-                    onChange={(e) => setTemChurrasqueira(e.target.value)}
-                    className="w-full rounded-md border-gray-300 px-3 py-1.5"
-                  />
                 </div>
               </div>
               <div className="grid grid-cols-5 gap-4">
-                <div className="col-span-3">
-                  <label className="block text-sm font-medium text-gray-900">
+                <div className="col-span-3 flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={tem_piscina}
+                    onChange={(e) => setTemPiscina(e.target.checked)}
+                    className="rounded-md border-gray-300"
+                  />
+                  <label className="text-sm font-medium text-gray-900">
                     Tem piscina
                   </label>
-                  <input
-                    type="boolean"
-                    value={tem_piscina}
-                    onChange={(e) => setTemPiscina(e.target.value)}
-                    className="w-full rounded-md border-gray-300 px-3 py-1.5"
-                  />
                 </div>
+
                 <div className="col-span-2">
                   <label className="block text-sm font-medium text-gray-900">
                     Valor do condominio

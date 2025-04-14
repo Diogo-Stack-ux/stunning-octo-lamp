@@ -4,7 +4,7 @@ import { pool } from '../db'
 export async function addCarros(
   fabricante: string,
   modelo: string,
-  ano_de_fabricaçao: number,
+  ano_de_fabricacao: number,
   cor: string,
   quilometragem: number
 ) {
@@ -13,7 +13,7 @@ export async function addCarros(
   ( 
   fabricante,
   modelo,
-  ano_de_fabricaçao,
+  ano_de_fabricacao,
   cor,
   quilometragem)
   values (
@@ -23,7 +23,7 @@ export async function addCarros(
   $4,
   $5
   )`,
-    [fabricante, modelo, ano_de_fabricaçao, cor, quilometragem]
+    [fabricante, modelo, ano_de_fabricacao, cor, quilometragem]
   )
 }
 
@@ -35,22 +35,22 @@ export async function updateCarros(
   id: number,
   fabricante: string,
   modelo: string,
-  ano_de_fabricaçao: number,
+  ano_de_fabricacao: number,
   cor: string,
   quilometragem: number
 ) {
   await pool.query(
     `update carros set 
-            fabricante = '$1',
-            modelo = '$2',
-            ano_de_fabricacao = '$3',
-            cor = '$4',
-            quilometragem = '$5'
+            fabricante = $1,
+            modelo = $2,
+            ano_de_fabricacao = $3,
+            cor = $4,
+            quilometragem = $5
         where id = $6`,
-    [fabricante, modelo, ano_de_fabricaçao, cor, quilometragem, id]
+    [fabricante, modelo, ano_de_fabricacao, cor, quilometragem, id]
   )
 }
 
 export async function removeCarros(id: number) {
-  await pool.query(`delete from carros where id = ${id}`)
+  await pool.query(`delete from carros where id = $1`, [id])
 }

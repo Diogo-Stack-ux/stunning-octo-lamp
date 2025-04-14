@@ -34,16 +34,16 @@ export async function updateCurriculos(
   habilidades: string
 ) {
   await pool.query(
-    `update curriculos set 
-            nome = '$1',
-            endereco = '$2',
-            curriculo = '$3',
-            habilidades = '$4'
+    `update curriculo set 
+            nome = $1,
+            endereco = $2,
+            curriculo = $3,
+            habilidades = $4
         where id = $5`,
     [nome, endereco, curriculo, habilidades, id]
   )
 }
 
 export async function removeCurriculos(id: number) {
-  await pool.query(`delete from curriculos where id = ${id}`)
+  await pool.query(`delete from curriculo where id = $1`, [id])
 }

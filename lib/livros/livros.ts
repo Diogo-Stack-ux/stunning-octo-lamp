@@ -1,5 +1,7 @@
 'use server'
+
 import { pool } from '@/lib/db'
+
 export async function addLivros(
   nome: string,
   autor: string,
@@ -9,26 +11,23 @@ export async function addLivros(
   preco_sugerido: number
 ) {
   await pool.query(
-    `insert into Livros
-  (nome,
-  autor,
-  assunto,
-  resumo,
-  data_de_lancamento,
-  preco_sugerido
-  ) values (
-   $1,
-   $2,
-   $3,
-   $4,
-   $5,
-   $6 )`,
+    `INSERT INTO livros (
+      nome,
+      autor,
+      assunto,
+      resumo,
+      data_de_lancamento,
+      preco_sugerido
+    ) VALUES (
+      $1, $2, $3, $4, $5, $6
+    )`,
     [nome, autor, assunto, resumo, data_de_lancamento, preco_sugerido]
   )
 }
 
 export async function getLivros() {
-  return (await pool.query(`select * from livros`)).rows
+  const result = await pool.query(`SELECT * FROM livros`)
+  return result.rows
 }
 
 export async function updateLivros(
@@ -41,18 +40,18 @@ export async function updateLivros(
   preco_sugerido: number
 ) {
   await pool.query(
-    `update livros set 
-            nome = '$1',
-            autor = '$2',
-            assunto = '$3',
-            resumo = '$4',
-            data de lancamento = '$5',
-            preco sugerido = '$6'
-        where id = $7`,
+    `UPDATE livros SET 
+      nome = $1,
+      autor = $2,
+      assunto = $3,
+      resumo = $4,
+      data_de_lancamento = $5,
+      preco_sugerido = $6
+     WHERE id = $7`,
     [nome, autor, assunto, resumo, data_de_lancamento, preco_sugerido, id]
   )
 }
 
 export async function removeLivros(id: number) {
-  await pool.query(`delete from livros where id = ${id}`)
+  await pool.query(`DELETE FROM livros WHERE id = $1`, [id])
 }

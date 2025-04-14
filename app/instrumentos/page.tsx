@@ -71,7 +71,7 @@ export default function Page() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">CADASTRO DE ALUNOS</h1>
+      <h1 className="text-2xl font-bold mb-4">CADASTRO DE INSTRUMENTOS</h1>
       <button
         onClick={() =>
           handleEdit({
@@ -82,7 +82,7 @@ export default function Page() {
         }
         className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
       >
-        ADICIONAR NOVO ALUNO
+        ADICIONAR NOVO INSTRUMENTO
       </button>
       <div className="overflow-x-auto mt-4">
         <table className="table-auto w-full">
@@ -97,10 +97,6 @@ export default function Page() {
             {instrumentos.map((instrumento) => (
               <tr key={instrumento.id} className="hover:bg-gray-100">
                 <td className="border px-4 py-2">{instrumento.nome}</td>
-                <td className="border px-4 py-2">{instrumento.tipo}</td>
-                <td className="border px-4 py-2">
-                  {instrumento.nome?.toString()}
-                </td>
                 <td className="border px-4 py-2">{instrumento.tipo}</td>
                 <td className="border px-4 py-2">
                   <button

@@ -9,24 +9,25 @@ interface Casa {
   endereco: string
   area_terreno: number
   area_construida: number
-  quantidade_de_quartos: number
-  quantidade_de_banheiros: number
+  quantidade_quartos: number
+  quantidade_banheiros: number
+  tem_edicula: boolean
   tem_churrasqueira: boolean
   tem_piscina: boolean
-  valor_do_condominio: number
-  preco_de_venda: number
+  valor_condominio: number
+  preco_venda: number
 }
 
 export default function Page() {
   const [casas, setCasas] = useState<Casa[]>([])
   const [id, setId] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [tipo, setTipo] = useState('tipo')
-  const [endereco, setEndereco] = useState('endereco')
+  const [tipo, setTipo] = useState('')
+  const [endereco, setEndereco] = useState('')
   const [areaTerreno, setAreaTerreno] = useState(0)
   const [areaConstruida, setAreaConstruida] = useState(0)
   const [quantidadeDeQuartos, setQuantidadeDeQuartos] = useState(0)
-  const [quantidadeDeBanheiros, setQuantidadeDeBanheiros] = useState(0)
+  const [quantidadeBanheiros, setQuantidadeBanheiros] = useState(0)
   const [temEdicula, setTemEdicula] = useState(false)
   const [temChurrasqueira, setTemChurrasqueira] = useState(false)
   const [temPiscina, setTemPiscina] = useState(false)
@@ -38,7 +39,7 @@ export default function Page() {
       const data = await getCasas()
       setCasas(data)
     } catch (error) {
-      console.error('Erro ao buscar apartamentos:', error)
+      console.error('Erro ao buscar casas:', error)
     }
   }
 
@@ -52,13 +53,13 @@ export default function Page() {
     setEndereco(casa.endereco)
     setAreaTerreno(casa.area_terreno)
     setAreaConstruida(casa.area_construida)
-    setQuantidadeDeQuartos(casa.quantidade_de_quartos)
-    setQuantidadeDeBanheiros(casa.quantidade_de_banheiros)
-    setTemEdicula(casa.temEdicula)
+    setQuantidadeDeQuartos(casa.quantidade_quartos)
+    setQuantidadeBanheiros(casa.quantidade_banheiros)
+    setTemEdicula(casa.tem_edicula)
     setTemChurrasqueira(casa.tem_churrasqueira)
     setTemPiscina(casa.tem_piscina)
-    setValorDoCondominio(casa.valor_do_condominio)
-    setPrecoDeVenda(casa.preco_de_venda)
+    setValorDoCondominio(casa.valor_condominio || 0)
+    setPrecoDeVenda(casa.preco_venda || 0)
     setIsModalOpen(true)
   }
 
@@ -71,7 +72,23 @@ export default function Page() {
     }
   }
 
+  const resetForm = () => {
+    setId(0)
+    setTipo('')
+    setEndereco('')
+    setAreaTerreno(0)
+    setAreaConstruida(0)
+    setQuantidadeDeQuartos(0)
+    setQuantidadeBanheiros(0)
+    setTemEdicula(false)
+    setTemChurrasqueira(false)
+    setTemPiscina(false)
+    setValorDoCondominio(0)
+    setPrecoDeVenda(0)
+  }
+
   const closeModal = () => {
+    resetForm()
     setIsModalOpen(false)
   }
 
@@ -85,7 +102,7 @@ export default function Page() {
           areaTerreno,
           areaConstruida,
           quantidadeDeQuartos,
-          quantidadeDeBanheiros,
+          quantidadeBanheiros,
           temEdicula,
           temChurrasqueira,
           temPiscina,
@@ -100,7 +117,7 @@ export default function Page() {
           areaTerreno,
           areaConstruida,
           quantidadeDeQuartos,
-          quantidadeDeBanheiros,
+          quantidadeBanheiros,
           temEdicula,
           temChurrasqueira,
           temPiscina,
@@ -114,28 +131,30 @@ export default function Page() {
       console.error('Erro ao salvar casas:', error)
     }
   }
+
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">CADASTRO DE APARTAMENTOS</h1>
+      <h1 className="text-2xl font-bold mb-4">CADASTRO DE CASAS</h1>
       <button
         onClick={() =>
           handleEdit({
             id: 0,
             tipo: '',
-            condominio: '',
-            area_privativa: 0,
-            area_comum: 0,
-            quantidade_de_quartos: 0,
-            quantidade_de_banheiros: 0,
+            endereco: '',
+            area_terreno: 0,
+            area_construida: 0,
+            quantidade_quartos: 0,
+            quantidade_banheiros: 0,
+            tem_edicula: false,
             tem_churrasqueira: false,
             tem_piscina: false,
-            valor_do_condominio: 0,
-            preco_de_venda: 0,
+            valor_condominio: 0,
+            preco_venda: 0,
           })
         }
         className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
       >
-        ADICIONAR UM NOVO APARTAMENTO
+        ADICIONAR UMA NOVA CASA
       </button>
       <div className="overflow-x-auto mt-4">
         <table className="table-auto w-full">
@@ -143,7 +162,8 @@ export default function Page() {
             <tr>
               <th className="border px-4 py-2">Tipo</th>
               <th className="border px-4 py-2">Endereço</th>
-              <th className="border px-4 py-2">Area Terreno </th>
+              <th className="border px-4 py-2">Área Terreno</th>
+              <th className="border px-4 py-2">Área Construída</th>
               <th className="border px-4 py-2">Ações</th>
             </tr>
           </thead>
@@ -176,149 +196,137 @@ export default function Page() {
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-md w-96">
-            <h2 className="text-lg font-bold mb-4">Casa de Aluguel</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <h2 className="text-lg font-semibold text-gray-900">
-                Cadastro de casas
-              </h2>
-              <div className="grid grid-cols-5 gap-4">
-                <div className="col-span-4">
-                  <label className="block text-sm font-medium text-gray-900">
-                    Tipo
-                  </label>
-                  <input
-                    type="text"
-                    value={tipo}
-                    onChange={(e) => setTipo(e.target.value)}
-                    className="w-full rounded-md border-gray-300 px-3 py-1.5"
-                  />
-                </div>
-                <div className="col-span-1">
-                  <label className="block text-sm font-medium text-gray-900">
-                    Endereço
-                  </label>
-                  <input
-                    type="text"
-                    value={endereco}
-                    onChange={(e) => setEndereco(e.target.value)}
-                    className="w-full rounded-md border-gray-300 px-3 py-1.5"
-                  />
-                </div>
+          <div className="bg-white p-6 rounded-md w-full max-w-4xl">
+            <h2 className="text-lg font-bold mb-4">Cadastro de casas</h2>
+            <form
+              onSubmit={handleSubmit}
+              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
+              <div>
+                <label className="block text-sm font-medium text-gray-900">
+                  Tipo
+                </label>
+                <input
+                  type="text"
+                  value={tipo}
+                  onChange={(e) => setTipo(e.target.value)}
+                  className="w-full rounded-md border-gray-300 px-3 py-1.5"
+                />
               </div>
-
-              <div className="grid grid-cols-5 gap-4">
-                <div className="col-span-5">
-                  <label className="block text-sm font-medium text-gray-900">
-                    Area Terreno
-                  </label>
-                  <input
-                    type="number"
-                    value={areaTerreno}
-                    onChange={(e) => setAreaTerreno(parseInt(e.target.value))}
-                    className="w-full rounded-md border-gray-300 px-3 py-1.5"
-                  />
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-900">
+                  Endereço
+                </label>
+                <input
+                  type="text"
+                  value={endereco}
+                  onChange={(e) => setEndereco(e.target.value)}
+                  className="w-full rounded-md border-gray-300 px-3 py-1.5"
+                />
               </div>
-
-              <div className="grid grid-cols-5 gap-4">
-                <div className="col-span-3">
-                  <label className="block text-sm font-medium text-gray-900">
-                    Area Construida
-                  </label>
-                  <input
-                    type="number"
-                    value={areaConstruida}
-                    onChange={(e) =>
-                      setAreaConstruida(parseInt(e.target.value))
-                    }
-                    className="w-full rounded-md border-gray-300 px-3 py-1.5"
-                  />
-                </div>
-                <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-900">
-                    Quantidade de Quartos
-                  </label>
-                  <input
-                    type="number"
-                    value={quantidadeDeQuartos}
-                    onChange={(e) =>
-                      setQuantidadeDeQuartos(parseInt(e.target.value))
-                    }
-                    className="w-full rounded-md border-gray-300 px-3 py-1.5"
-                  />
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-900">
+                  Área Terreno
+                </label>
+                <input
+                  type="number"
+                  value={areaTerreno}
+                  onChange={(e) => setAreaTerreno(parseInt(e.target.value))}
+                  className="w-full rounded-md border-gray-300 px-3 py-1.5"
+                />
               </div>
-              <div className="grid grid-cols-5 gap-4">
-                <div className="col-span-3">
-                  <label className="block text-sm font-medium text-gray-900">
-                    Quantidade de Banheiros
-                  </label>
-                  <input
-                    type="number"
-                    value={quantidadeDeBanheiros}
-                    onChange={(e) =>
-                      setQuantidadeDeBanheiros(parseInt(e.target.value))
-                    }
-                    className="w-full rounded-md border-gray-300 px-3 py-1.5"
-                  />
-                </div>
-                <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-900">
-                    Tem Churrasqueira
-                  </label>
-                  <input
-                    type="boolean"
-                    value={temChurrasqueira}
-                    onChange={(e) => setTemChurrasqueira(e.target.value)}
-                    className="w-full rounded-md border-gray-300 px-3 py-1.5"
-                  />
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-900">
+                  Área Construída
+                </label>
+                <input
+                  type="number"
+                  value={areaConstruida}
+                  onChange={(e) => setAreaConstruida(parseInt(e.target.value))}
+                  className="w-full rounded-md border-gray-300 px-3 py-1.5"
+                />
               </div>
-              <div className="grid grid-cols-5 gap-4">
-                <div className="col-span-3">
-                  <label className="block text-sm font-medium text-gray-900">
-                    Tem piscina
-                  </label>
-                  <input
-                    type="boolean"
-                    value={temPiscina}
-                    onChange={(e) => setTemPiscina(e.target.value)}
-                    className="w-full rounded-md border-gray-300 px-3 py-1.5"
-                  />
-                </div>
-                <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-900">
-                    Valor do condominio
-                  </label>
-                  <input
-                    type="number"
-                    value={valorDoCondominio}
-                    onChange={(e) =>
-                      setValorDoCondominio(parseInt(e.target.value))
-                    }
-                    className="w-full rounded-md border-gray-300 px-3 py-1.5"
-                  />
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-900">
+                  Quartos
+                </label>
+                <input
+                  type="number"
+                  value={quantidadeDeQuartos}
+                  onChange={(e) =>
+                    setQuantidadeDeQuartos(parseInt(e.target.value))
+                  }
+                  className="w-full rounded-md border-gray-300 px-3 py-1.5"
+                />
               </div>
-              <div className="grid grid-cols-5 gap-4">
-                <div className="col-span-3">
-                  <label className="block text-sm font-medium text-gray-900">
-                    preço de venda
-                  </label>
-                  <input
-                    type="number"
-                    value={precoDeVenda}
-                    onChange={(e) => setPrecoDeVenda(parseInt(e.target.value))}
-                    className="w-full rounded-md border-gray-300 px-3 py-1.5"
-                  />
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-900">
+                  Banheiros
+                </label>
+                <input
+                  type="number"
+                  value={quantidadeBanheiros}
+                  onChange={(e) =>
+                    setQuantidadeBanheiros(parseInt(e.target.value))
+                  }
+                  className="w-full rounded-md border-gray-300 px-3 py-1.5"
+                />
               </div>
-              <div className="mt-6 flex items-center justify-end gap-x-6">
+              <div>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={temEdicula}
+                    onChange={(e) => setTemEdicula(e.target.checked)}
+                  />
+                  <span>Tem Edícula</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={temChurrasqueira}
+                    onChange={(e) => setTemChurrasqueira(e.target.checked)}
+                  />
+                  <span>Tem Churrasqueira</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={temPiscina}
+                    onChange={(e) => setTemPiscina(e.target.checked)}
+                  />
+                  <span>Tem Piscina</span>
+                </label>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-900">
+                  Valor do Condomínio
+                </label>
+                <input
+                  type="number"
+                  value={valorDoCondominio}
+                  onChange={(e) =>
+                    setValorDoCondominio(parseInt(e.target.value))
+                  }
+                  className="w-full rounded-md border-gray-300 px-3 py-1.5"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-900">
+                  Preço de Venda
+                </label>
+                <input
+                  type="number"
+                  value={precoDeVenda}
+                  onChange={(e) => setPrecoDeVenda(parseInt(e.target.value))}
+                  className="w-full rounded-md border-gray-300 px-3 py-1.5"
+                />
+              </div>
+              <div className="md:col-span-2 flex justify-end gap-2 mt-4">
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="text-sm font-semibold text-gray-900"
+                  className="text-gray-700 font-semibold"
                 >
                   Cancelar
                 </button>

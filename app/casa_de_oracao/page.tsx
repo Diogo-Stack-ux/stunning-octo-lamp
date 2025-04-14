@@ -13,14 +13,14 @@ interface CasaDeOracao {
   nome: string
   endereco: string
   anciao: string
-  telefoneAnciao: string
-  coperador: string
-  telefoneCooperador: string
-  cooperadorJovens: string
-  telefoneCooperadorJovens: string
+  telefone_anciao: string
+  cooperador: string
+  telefone_cooperador: string
+  cooperador_de_jovens: string
+  telefoneCooperadorDeJovens: string
   diacono: string
-  telefoneDiacono: string
-  ultimaSantaCeia: number
+  telefone_diacono: string
+  ultima_santa_ceia: number
 }
 
 export default function Page() {
@@ -33,8 +33,9 @@ export default function Page() {
   const [telefoneAnciao, setTelefoneAnciao] = useState('')
   const [cooperador, setCooperador] = useState('')
   const [telefoneCooperador, setTelefoneCooperador] = useState('')
-  const [cooperadorJovens, setCooperadorJovens] = useState('')
-  const [telefoneCooperadorJovens, setTelefoneCooperadorJovens] = useState('')
+  const [cooperadorDeJovens, setCooperadorDeJovens] = useState('')
+  const [telefoneCooperadorDeJovens, setTelefoneCooperadorDeJovens] =
+    useState('')
   const [diacono, setDiacono] = useState('')
   const [telefoneDiacono, setTelefoneDiacono] = useState('')
   const [ultimaSantaCeia, setUltimaSantaCeia] = useState(0)
@@ -57,13 +58,13 @@ export default function Page() {
     setNome(casaDeOracao.nome)
     setEndereco(casaDeOracao.endereco)
     setAnciao(casaDeOracao.anciao)
-    setTelefoneAnciao(casaDeOracao.telefoneAnciao)
-    setCooperador(casaDeOracao.coperador)
-    setTelefoneCooperador(casaDeOracao.telefoneCooperador)
-    setCooperadorJovens(casaDeOracao.cooperadorJovens)
+    setTelefoneAnciao(casaDeOracao.telefone_anciao)
+    setCooperador(casaDeOracao.cooperador)
+    setTelefoneCooperador(casaDeOracao.telefone_cooperador)
+    setCooperadorDeJovens(casaDeOracao.cooperador_de_jovens)
     setDiacono(casaDeOracao.diacono)
-    setTelefoneDiacono(casaDeOracao.telefoneDiacono)
-    setUltimaSantaCeia(casaDeOracao.ultimaSantaCeia)
+    setTelefoneDiacono(casaDeOracao.telefone_diacono)
+    setUltimaSantaCeia(casaDeOracao.ultima_santa_ceia)
     setIsModalOpen(true)
   }
 
@@ -91,8 +92,8 @@ export default function Page() {
           telefoneAnciao,
           cooperador,
           telefoneCooperador,
-          cooperadorJovens,
-          telefoneCooperadorJovens,
+          cooperadorDeJovens,
+          telefoneCooperadorDeJovens,
           diacono,
           telefoneDiacono,
           ultimaSantaCeia
@@ -106,8 +107,8 @@ export default function Page() {
           telefoneAnciao,
           cooperador,
           telefoneCooperador,
-          cooperadorJovens,
-          telefoneCooperadorJovens,
+          cooperadorDeJovens,
+          telefoneCooperadorDeJovens,
           diacono,
           telefoneDiacono,
           ultimaSantaCeia
@@ -130,14 +131,14 @@ export default function Page() {
             nome: '',
             anciao: '',
             endereco: '',
-            telefoneAnciao: '',
-            coperador: '',
-            telefoneCooperador: '',
-            cooperadorJovens: '',
-            telefoneCooperadorJovens: '',
+            telefone_anciao: '',
+            cooperador: '',
+            telefone_cooperador: '',
+            cooperador_de_Jovens: '',
+            telefone_cooperador_de_jovens: '',
             diacono: '',
-            telefoneDiacono: '',
-            ultimaSantaCeia: 0,
+            telefone_diacono: '',
+            ultima_santa_ceia: 0,
           })
         }
         className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
@@ -182,7 +183,7 @@ export default function Page() {
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-md w-96">
             <h2 className="text-lg font-bold mb-4">Nova Casa de Oração</h2>
-            ```
+            CASAS DE ORAÇÃO DE TODA REGIÃO
             <form onSubmit={handleSubmit} className="space-y-6">
               <h2 className="text-lg font-semibold text-gray-900">
                 Cadastro de Casa de Oração
@@ -201,7 +202,7 @@ export default function Page() {
                 </div>
                 <div className="col-span-1">
                   <label className="block text-sm font-medium text-gray-900">
-                    Nro. Sta. Ceia
+                    Ultima santa ceia
                   </label>
                   <input
                     type="number"
@@ -245,7 +246,7 @@ export default function Page() {
                     Telefone Ancião
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     value={telefoneAnciao}
                     onChange={(e) => setTelefoneAnciao(e.target.value)}
                     className="w-full rounded-md border-gray-300 px-3 py-1.5"
@@ -307,8 +308,8 @@ export default function Page() {
                   </label>
                   <input
                     type="text"
-                    value={cooperadorJovens}
-                    onChange={(e) => setCooperadorJovens(e.target.value)}
+                    value={cooperadorDeJovens}
+                    onChange={(e) => setCooperadorDeJovens(e.target.value)}
                     className="w-full rounded-md border-gray-300 px-3 py-1.5"
                   />
                 </div>
@@ -318,9 +319,9 @@ export default function Page() {
                   </label>
                   <input
                     type="text"
-                    value={telefoneCooperadorJovens}
+                    value={telefoneCooperadorDeJovens}
                     onChange={(e) =>
-                      setTelefoneCooperadorJovens(e.target.value)
+                      setTelefoneCooperadorDeJovens(e.target.value)
                     }
                     className="w-full rounded-md border-gray-300 px-3 py-1.5"
                   />
@@ -342,7 +343,6 @@ export default function Page() {
                 </button>
               </div>
             </form>
-            ```
           </div>
         </div>
       )}

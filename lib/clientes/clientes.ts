@@ -42,17 +42,17 @@ export async function updateClientes(
 ) {
   await pool.query(
     `update clientes set 
-            nome = '$1',
-            email = '$2',
-            endereco = '$3',
-            data_de_nascimento = '$4',
-            telefone = '$5',
-            cpf = '$6'
+            nome = $1,
+            endereco_de_email = $2,
+            endereco = $3,
+            data_de_nascimento = $4,
+            numero_de_telefone = $5,
+            cpf = $6
         where id = $7`,
     [nome, email, endereco, data_de_nascimento, telefone, cpf, id]
   )
 }
 
 export async function removeClientes(id: number) {
-  await pool.query(`delete from clientes where id = ${id}`)
+  await pool.query(`delete from clientes where id = $1`, [id])
 }

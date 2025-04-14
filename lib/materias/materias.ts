@@ -1,44 +1,44 @@
 'use server'
+
 import { pool } from '../db'
+
 export async function addMaterias(
   nome: string,
   descricao: string,
-  ano_letivo: string
+  ano_letivo: number
 ) {
   await pool.query(
-    `insert into materias
-  (nome,
-  descricao ,
-  ano_letivo
-  ) values (
-  $1,
-  $2,
-  $3
-  )`,
+    `INSERT INTO materias (
+      nome,
+      descricao,
+      ano_letivo
+    ) VALUES (
+      $1, $2, $3
+    )`,
     [nome, descricao, ano_letivo]
   )
 }
 
 export async function getMaterias() {
-  return (await pool.query(`select * from materias`)).rows
+  return (await pool.query(`SELECT * FROM materias`)).rows
 }
 
 export async function updateMaterias(
   id: number,
   nome: string,
   descricao: string,
-  ano_letivo: string
+  ano_letivo: number
 ) {
   await pool.query(
-    `update alunos set 
-            nome = '$1',
-            descricao = '$2',
-            ano letivo = '$3',
-        where id = $4`,
-    [nome, nome, descricao, ano_letivo, id]
+    `UPDATE materias SET 
+      nome = $1,
+      descricao = $2,
+      ano_letivo = $3
+    WHERE id = $4`,
+    [nome, descricao, ano_letivo, id]
   )
 }
 
 export async function removeMaterias(id: number) {
-  await pool.query(`delete from materias where id = ${id}`)
+  await pool.query(`DELETE FROM materias WHERE id = $1`, [id])
 }

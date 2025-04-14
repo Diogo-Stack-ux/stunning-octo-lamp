@@ -1,5 +1,7 @@
 'use server'
+
 import { pool } from '../db'
+
 export async function addPneus(
   marca: string,
   modelo: string,
@@ -9,27 +11,22 @@ export async function addPneus(
   carga_maxima: number
 ) {
   await pool.query(
-    `insert into pneus 
-  (marca,
-  modelo,
-  largura,
-  raio,
-  especura,
-  carga_maxima
-  ) values (
-  $1,
-  $2,
-  $3,
-  $4,
-  $5,
-  $6
-  )`,
+    `INSERT INTO pneus (
+      marca,
+      modelo,
+      largura,
+      raio,
+      especura,
+      carga_maxima
+    ) VALUES (
+      $1, $2, $3, $4, $5, $6
+    )`,
     [marca, modelo, largura, raio, especura, carga_maxima]
   )
 }
 
 export async function getPneus() {
-  return (await pool.query(`select * from pneus`)).rows
+  return (await pool.query(`SELECT * FROM pneus`)).rows
 }
 
 export async function updatePneus(
@@ -42,18 +39,18 @@ export async function updatePneus(
   carga_maxima: number
 ) {
   await pool.query(
-    `update alunos set 
-           marca = '$1',
-           modelo = '$2',
-           largura = '$3',
-           raio = '$4',
-           especura = '$5',
-           carga_maxima = '$6'
-        where id = $7`,
+    `UPDATE pneus SET 
+      marca = $1,
+      modelo = $2,
+      largura = $3,
+      raio = $4,
+      especura = $5,
+      carga_maxima = $6
+    WHERE id = $7`,
     [marca, modelo, largura, raio, especura, carga_maxima, id]
   )
 }
 
 export async function removePneus(id: number) {
-  await pool.query(`delete from pneus where id = ${id}`)
+  await pool.query(`DELETE FROM pneus WHERE id = $1`, [id])
 }

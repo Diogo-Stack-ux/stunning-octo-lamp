@@ -12,7 +12,7 @@ interface Product {
   id: number
   nome: string
   valor_unitario: number
-  validade: Date
+  validade: string
   descricao: string
 }
 
@@ -22,7 +22,7 @@ export default function Page() {
   const [id, setId] = useState(0)
   const [nome, setNome] = useState('')
   const [valorUnitario, setValorUnitario] = useState(0)
-  const [validade, setValidade] = useState(new Date())
+  const [validade, setValidade] = useState('')
   const [descricao, setDescricao] = useState('')
 
   const fetchProducts = async () => {
@@ -44,7 +44,6 @@ export default function Page() {
     setValorUnitario(product.valor_unitario)
     setValidade(product.validade)
     setDescricao(product.descricao)
-
     setIsModalOpen(true)
   }
 
@@ -85,7 +84,7 @@ export default function Page() {
             id: 0,
             nome: '',
             valor_unitario: 0,
-            validade: new Date(),
+            validade: '',
             descricao: '',
           })
         }
@@ -99,7 +98,6 @@ export default function Page() {
             <tr>
               <th className="border px-4 py-2">Nome</th>
               <th className="border px-4 py-2">Valor Unitário</th>
-              <th className="border px-4 py-2">Validade</th>
               <th className="border px-4 py-2">Ações</th>
             </tr>
           </thead>
@@ -108,11 +106,6 @@ export default function Page() {
               <tr key={product.id} className="hover:bg-gray-100">
                 <td className="border px-4 py-2">{product.nome}</td>
                 <td className="border px-4 py-2">{product.valor_unitario}</td>
-                <td className="border px-4 py-2">{product.descricao}</td>
-                <td className="border px-4 py-2">
-                  {product.validade?.toDateString()}
-                </td>
-                <td className="border px-4 py-2">{product.nome}</td>
                 <td className="border px-4 py-2">
                   <button
                     onClick={() => handleEdit(product)}
@@ -152,13 +145,17 @@ export default function Page() {
                 onChange={(e) => setValorUnitario(parseInt(e.target.value))}
                 className="w-full p-2 border rounded-md"
               />
-              <input
-                type="date"
-                placeholder="validade"
-                value={validade}
-                onChange={(e) => setValidade(e.target.value)}
-                className="w-full p-2 border rounded-md"
-              />
+              <div className="col-span-4">
+                <label className="block text-sm font-medium text-gray-900">
+                  Validade
+                </label>
+                <input
+                  type="text"
+                  value={validade}
+                  onChange={(e) => setValidade(e.target.value)}
+                  className="w-full rounded-md border-gray-300 px-3 py-1.5"
+                />
+              </div>
               <input
                 type="text"
                 placeholder="descricao"

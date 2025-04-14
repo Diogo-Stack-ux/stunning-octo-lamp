@@ -1,22 +1,23 @@
 'use server'
+
 import { pool } from '../db'
+
 export async function addHinos(titulo: string, numero: number, letra: string) {
   await pool.query(
-    `insert into hinos (
-            titulo,
-            numero,
-            letra
-        ) values (
-            $1,
-            $2,
-            $3
-        )`,
+    `INSERT INTO hinos (
+      titulo,
+      numero,
+      letra
+    ) VALUES (
+      $1, $2, $3
+    )`,
     [titulo, numero, letra]
   )
 }
 
 export async function getHinos() {
-  return (await pool.query(`select * from hinos`)).rows
+  const result = await pool.query(`SELECT * FROM hinos`)
+  return result.rows
 }
 
 export async function updateHinos(
@@ -26,15 +27,15 @@ export async function updateHinos(
   letra: string
 ) {
   await pool.query(
-    `update hino set 
-            titulo = $1',
-            letra = $2,
-            numero = $3
-        where id = $4`,
-    [titulo, letra, numero, id]
+    `UPDATE hinos SET 
+      titulo = $1,
+      numero = $2,
+      letra = $3
+     WHERE id = $4`,
+    [titulo, numero, letra, id]
   )
 }
 
 export async function removeHinos(id: number) {
-  await pool.query(`delete from hinos where id = ${id}`)
+  await pool.query(`DELETE FROM hinos WHERE id = $1`, [id])
 }

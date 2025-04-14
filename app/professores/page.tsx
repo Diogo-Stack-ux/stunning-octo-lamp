@@ -87,7 +87,7 @@ export default function Page() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">CADASTRO DE PROFESOR</h1>
+      <h1 className="text-2xl font-bold mb-4">CADASTRO DE PROFESSOR</h1>
       <button
         onClick={() =>
           handleEdit({
@@ -109,7 +109,6 @@ export default function Page() {
             <tr>
               <th className="border px-4 py-2">Nome</th>
               <th className="border px-4 py-2">Endereço</th>
-              <th className="border px-4 py-2">Especialidade</th>
               <th className="border px-4 py-2">Ações</th>
             </tr>
           </thead>
@@ -118,11 +117,6 @@ export default function Page() {
               <tr key={professor.id} className="hover:bg-gray-100">
                 <td className="border px-4 py-2">{professor.nome}</td>
                 <td className="border px-4 py-2">{professor.endereco}</td>
-                <td className="border px-4 py-2">{professor.especialidade}</td>
-                <td className="border px-4 py-2">
-                  {professor.nome?.toString()}
-                </td>
-                <td className="border px-4 py-2">{professor.telefone}</td>
                 <td className="border px-4 py-2">
                   <button
                     onClick={() => handleEdit(professor)}

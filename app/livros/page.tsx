@@ -14,7 +14,7 @@ interface Livro {
   autor: string
   assunto: string
   resumo: string
-  data_de_lancamento: Date
+  data_de_lancamento: string
   preco_sugerido: number
 }
 
@@ -26,7 +26,7 @@ export default function Page() {
   const [autor, setAutor] = useState('')
   const [assunto, setAssunto] = useState('')
   const [resumo, setResumo] = useState('')
-  const [data_de_lancamento, setDataDeLancamento] = useState(new Date())
+  const [data_de_lancamento, setDataDeLancamento] = useState('')
   const [preco_sugerido, setPrecoSugerido] = useState(0)
 
   const fetchLivros = async () => {
@@ -121,7 +121,6 @@ export default function Page() {
             <tr>
               <th className="border px-4 py-2">Nome</th>
               <th className="border px-4 py-2">Autor</th>
-              <th className="border px-4 py-2">Assunto</th>
               <th className="border px-4 py-2">Ações</th>
             </tr>
           </thead>
@@ -130,9 +129,6 @@ export default function Page() {
               <tr key={livro.id} className="hover:bg-gray-100">
                 <td className="border px-4 py-2">{livro.nome}</td>
                 <td className="border px-4 py-2">{livro.autor}</td>
-                <td className="border px-4 py-2">{livro.assunto}</td>
-                <td className="border px-4 py-2">{livro.resumo?.toString()}</td>
-                <td className="border px-4 py-2">{livro.preco_sugerido}</td>
                 <td className="border px-4 py-2">
                   <button
                     onClick={() => handleEdit(livro)}

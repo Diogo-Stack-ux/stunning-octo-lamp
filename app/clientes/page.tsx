@@ -10,21 +10,21 @@ import { useEffect, useState } from 'react'
 
 interface Cliente {
   id: number
-  primeiroNome: string
-  enderecoDeEmail: string
+  nome: string
+  endereco_de_email: string
   endereco: string
-  dataDeNascimento: string
-  numeroDeTelefone: number
+  data_de_nascimento: string
+  numero_de_telefone: number
   cpf: string
 }
 
 export default function Page() {
   const [cliente, setClientes] = useState<Cliente[]>([])
-  const [primeiroNome, setPrimeiroNome] = useState('')
-  const [enderecoDeEmail, setEnderecoDeEmail] = useState('')
+  const [nome, setNome] = useState('')
+  const [endereco_de_email, setEnderecoDeEmail] = useState('')
   const [endereco, setEndereco] = useState('')
-  const [dataDeNascimento, setDataDeNascimento] = useState('')
-  const [numeroDeTelefone, setNumeroDeTelefone] = useState(0)
+  const [data_de_nascimento, setDataDeNascimento] = useState('')
+  const [numero_de_telefone, setNumeroDeTelefone] = useState(0)
   const [cpf, setCpf] = useState('')
   const [id, setId] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -44,11 +44,11 @@ export default function Page() {
 
   const handleEdit = (cliente: Cliente) => {
     setId(cliente.id)
-    setPrimeiroNome(cliente.primeiroNome)
-    setEnderecoDeEmail(cliente.enderecoDeEmail)
+    setNome(cliente.nome)
+    setEnderecoDeEmail(cliente.endereco_de_email)
     setEndereco(cliente.endereco)
-    setDataDeNascimento(cliente.dataDeNascimento)
-    setNumeroDeTelefone(cliente.numeroDeTelefone)
+    setDataDeNascimento(cliente.data_de_nascimento)
+    setNumeroDeTelefone(cliente.numero_de_telefone)
     setCpf(cliente.cpf)
     setIsModalOpen(true)
   }
@@ -71,21 +71,21 @@ export default function Page() {
     try {
       if (id === 0) {
         await addClientes(
-          primeiroNome,
-          enderecoDeEmail,
+          nome,
+          endereco_de_email,
           endereco,
-          dataDeNascimento,
-          numeroDeTelefone,
+          data_de_nascimento,
+          numero_de_telefone,
           cpf
         )
       } else {
         await updateClientes(
           id,
-          primeiroNome,
-          enderecoDeEmail,
+          nome,
+          endereco_de_email,
           endereco,
-          dataDeNascimento,
-          numeroDeTelefone,
+          data_de_nascimento,
+          numero_de_telefone,
           cpf
         )
       }
@@ -98,43 +98,41 @@ export default function Page() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">CADASTRO DE ALUNOS</h1>
+      <h1 className="text-2xl font-bold mb-4">CADASTRO DE CLIENTES</h1>
       <button
         onClick={() =>
           handleEdit({
             id: 0,
-            primeiroNome: '',
-            enderecoDeEmail: '',
+            nome: '',
+            endereco_de_email: '',
             endereco: '',
-            dataDeNascimento: new Date(),
-            numeroDeTelefone: 0,
+            data_de_nascimento: '',
+            numero_de_telefone: 0,
             cpf: '',
           })
         }
         className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
       >
-        ADICIONAR NOVO ALUNO
+        ADICIONAR NOVO CLIENTE
       </button>
       <div className="overflow-x-auto mt-4">
         <table className="table-auto w-full">
           <thead>
             <tr>
-              <th className="border px-4 py-2">Primeiro Nome</th>
+              <th className="border px-4 py-2">Nome</th>
               <th className="border px-4 py-2">Endereço de Email</th>
-              <th className="border px-4 py-2">Data de Nascimento</th>
+              <th className="border px-4 py-2">Endereço</th>
               <th className="border px-4 py-2">Ações</th>
             </tr>
           </thead>
           <tbody>
             {cliente.map((cliente) => (
               <tr key={cliente.id} className="hover:bg-gray-100">
-                <td className="border px-4 py-2">{cliente.primeiroNome}</td>
-                <td className="border px-4 py-2">{cliente.enderecoDeEmail}</td>
-                <td className="border px-4 py-2">{cliente.endereco}</td>
+                <td className="border px-4 py-2">{cliente.nome}</td>
                 <td className="border px-4 py-2">
-                  {cliente.dataDeNascimento?.toDateString()}
+                  {cliente.endereco_de_email}
                 </td>
-                <td className="border px-4 py-2">{cliente.numeroDeTelefone}</td>
+                <td className="border px-4 py-2">{cliente.endereco}</td>
                 <td className="border px-4 py-2">
                   <button
                     onClick={() => handleEdit(cliente)}
@@ -162,28 +160,29 @@ export default function Page() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 type="text"
-                placeholder="primeiro Nome"
-                value={primeiroNome}
-                onChange={(e) => setPrimeiroNome(e.target.value)}
+                placeholder="Nome"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
                 className="w-full p-2 border rounded-md"
               />
               <input
                 type="text"
                 placeholder="Endereço de Email"
-                value={enderecoDeEmail}
+                value={endereco_de_email}
                 onChange={(e) => setEnderecoDeEmail(e.target.value)}
                 className="w-full p-2 border rounded-md"
               />
               <input
                 type="date"
                 placeholder="Data de nascimento"
-                value={dataDeNascimento}
+                value={data_de_nascimento}
                 onChange={(e) => setDataDeNascimento(e.target.value)}
                 className="w-full p-2 border rounded-md"
               />
               <input
                 type="number"
-                value={numeroDeTelefone}
+                placeholder="numero de telefone"
+                value={numero_de_telefone}
                 onChange={(e) => setNumeroDeTelefone(parseInt(e.target.value))}
                 className="w-full p-2 border rounded-md"
               />

@@ -11,7 +11,7 @@ export async function addCasaDeOracao(
   telefone_cooperador_de_jovens: string,
   diacono: string,
   telefone_diacono: string,
-  numero_da_ultima_santa_ceia: number
+  ultima_santa_ceia: number
 ) {
   await pool.query(
     `insert into casa_de_oracao
@@ -25,7 +25,7 @@ export async function addCasaDeOracao(
   telefone_cooperador_de_jovens,
   diacono,
   telefone_diacono,
-  numero_da_ultima_santa_ceia
+  ultima_santa_ceia
   ) values (
    $1,
    $2,
@@ -50,7 +50,7 @@ export async function addCasaDeOracao(
       telefone_cooperador_de_jovens,
       diacono,
       telefone_diacono,
-      numero_da_ultima_santa_ceia,
+      ultima_santa_ceia,
     ]
   )
 }
@@ -71,21 +71,21 @@ export async function updateCasaDeOracao(
   telefone_cooperador_de_jovens: string,
   diacono: string,
   telefone_diacono: string,
-  numero_da_ultima_santa_ceia: number
+  ultima_santa_ceia: number
 ) {
   await pool.query(
-    `update animais set 
-            nome = '$1',
-            endereco = '$2',
-            anciao = '$3',
-            telefone anciao = '$4',
-            cooperador = '$5',
-            telefone cooperador = '$6',
-            cooperador de jovens = '$7',
-            telefone cooperador de jovens = '$8',
-            diacono = '$9',
-            telefone diacono = '$10',
-            numero da ultima santa ceia = '$11'
+    `update casa_de_oracao set 
+            nome = $1,
+            endereco = $2,
+            anciao = $3,
+            telefone_anciao = $4,
+            cooperador = $5,
+            telefone_cooperador = $6,
+            cooperador_de_jovens = $7,
+            telefone_cooperador_de_jovens = $8,
+            diacono = $9,
+            telefone_diacono = $10,
+            ultima_santa_ceia = $11
 
         where id = $12`,
     [
@@ -99,7 +99,7 @@ export async function updateCasaDeOracao(
       telefone_cooperador_de_jovens,
       diacono,
       telefone_diacono,
-      numero_da_ultima_santa_ceia,
+      ultima_santa_ceia,
       id,
     ]
   )

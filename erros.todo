@@ -1,0 +1,106 @@
+Testes:
+    Alunos:
+        ✔ Formulario de edicao nao carrega a data de nascimento @done(25-04-10 14:10)
+        ✔ Campo de data no formulario nao tem titulo / identificacao @done(25-04-10 10:55)
+    Animais:
+        ✔ ao entrar na pagina abre o formulario mesmo sem apertar em nada @done(25-04-10 14:12)
+        ✔ salvar edicao nao funciona @done(25-04-10 14:23)
+        ✔ falta de etica, registros de testes com nomes pejorativos "gay", "boyceta". @done(25-04-10 14:23)
+        ✔ salvar edicao nao funciona @done(25-04-10 14:23)
+    Apartamentos:
+        ✔ tabela de registros desalinhada @done(25-04-11 18:13)
+        ✔ campos "tem churrasqueira" e "tem piscina" do formulario devem ser checkbox @done(25-04-10 14:34)
+        ✔ salvar edicao nao funciona @done(25-04-10 14:36)
+        ✔ campos "tem churrasqueira" e "tem piscina" nao estao trazendo ou gravando os valores @done(25-04-14 10:48)
+        ✔ excluir nao funciona @done(25-04-14 10:52)
+    Carros:
+        ✔ Erros de portugues "Você" nao tem "ç". @done(25-04-10 14:47)
+        ✔ Botao salvar para editar nao funciona. @done(25-04-10 14:53)
+        ✔ excluir nao funciona @done(25-04-14 10:56)
+        ✔ tabela de registros esta desalinhada @done(25-04-14 11:01)
+
+    Casa_de_oracao:
+        ✔ telefone anciao deve ser texto @done(25-04-10 15:17)
+        ✔ salvar edicao nao funciona @done(25-04-10 15:19)
+        ✔ formulario apresenta no inicio e no fim 3 crases "```" @done(25-04-10 15:19)
+        formulario de editar nao carrega os campos:
+            ✔ Nro. Sta. Ceia @done(25-04-11 15:45)
+            ✔ Telefone Ancião @done(25-04-11 15:46)
+            ✔ Cooperador @done(25-04-11 15:46)
+            ✔ Telefone Cooperador @done(25-04-11 15:46)
+            ✔ Telefone Diácono @done(25-04-11 15:46)
+            ✔ Cooperador de Jovens @done(25-04-11 15:46)
+    Casas:
+        ✔ titulo da pagina e do botao adicionar errados @done(25-04-10 15:52)
+        ✔ tabela de registros desalinhada @done(25-04-11 14:44)
+        ✔ campos "tem churrasqueira" e "tem piscina" devem ser um "checkbox". @done(25-04-11 11:52)
+        ✔ salvar novo registro nao funciona @done(25-04-11 15:09)
+        ✔ formulario "expremido" @done(25-04-11 14:44)
+        ✔ salvar edicao nao funciona @done(25-04-11 15:09)
+        ✔ botao excluir nao funciona @done(25-04-11 15:09)
+    Clientes:
+        ✔ esta com titulo de alunos @done(25-04-11 15:48)
+        ✔ tabela de registros esta com colunas de titulo e registros desalinhada @done(25-04-11 15:48)
+        ✔ tabela de registros nao mostra os dados dos clientes primeiro nome, endereco de email e data de nascimento @done(25-04-11 16:20)
+        ✔ ao salvar um cliente novo acontece um erro @done(25-04-11 16:20)
+        ✔ formulario de edicao nao carrega os dados do cliente @done(25-04-11 16:20)
+    Computadores:
+        ✔ campo sem titulo ou descricao no formulario @done(25-04-11 16:22)
+        ✔ salvar edicao nao funciona @done(25-04-11 16:24)
+        campos nao carregam no formulario de edicao:
+            ✔ placa de video @done(25-04-14 11:08)
+            ✔ armazenamento @done(25-04-14 11:08)
+        ✔ botao excluir nao funciona @done(25-04-14 11:08)
+    Curriculos:
+        ✔ tabela de registros desalinhada @done(25-04-11 16:40)
+        ✔ titulo da pagina errado @done(25-04-11 16:41)
+        ✔ salvar edicao nao funciona @done(25-04-11 16:45)
+        ✔ botao excluir nao funciona @done(25-04-11 16:45)
+        ✔ titulo da pagina escrito "CURRILOS" @done(25-04-14 11:12)
+        ✔ botao adicionar escrito "CURRICULOS" @done(25-04-14 11:12)
+
+    Escolas:
+        ✔ salvar nova escola nao funciona @done(25-04-11 17:06)
+        ✔ salvar editar nao pode ser testado @done(25-04-11 17:06)
+        ✔ excluir nao pode ser testado @done(25-04-11 17:06)
+    Filmes:
+        ✔ salvar edicao nao funciona @done(25-04-11 17:12)
+    Hinos:
+        ✔ salvar edicao nao funciona @done(25-04-11 17:19)
+
+    Instrumentos:
+        ✔ tabela de registros desalinhado @done(25-04-11 17:22)
+        ✔ salvar edicao nao funciona @done(25-04-11 17:25)
+        ✔ titulo da pagina e do botao de adicionar errados @done(25-04-11 17:22)
+    Instrutores:
+        ✔ Formulario de editar nao carrega o campo de data. @done(25-04-11 18:22)
+        ✔ botao de salvar ao editar nao funciona @done(25-04-11 17:33)
+    Livros:
+        ✔ tabela de registros desalinhada @done(25-04-11 17:43)
+        ✔ campos de data e numero sem titulo / descricao @done(25-04-11 17:56)
+        ✔ salvar a edicao nao funciona @done(25-04-11 17:56)
+        ✔ botao excluir nao funciona @done(25-04-14 11:13)
+        
+    Materias:
+        ✔ nao existe um campo do tipo data, é somente o ano (numero) @done(25-04-11 18:06)
+        ✔ salvar uma alteracao nao funciona @done(25-04-11 18:10)
+        ✔ tabela de registro desalinhada @done(25-04-11 18:07)
+        ✔ titulo da pagina errado @done(25-04-11 18:08)
+    Pneus:
+        ✔ titulo errado @done(25-04-11 18:21)
+        ✔ tabela de registro desalinhada @done(25-04-11 18:21)
+        ✔ salvar edicao nao funciona @done(25-04-11 18:21)
+    Products:
+        ✔ campo de data de validade sem titulo @done(25-04-11 23:57)
+        ✔ ocorre um erro ao salvar um produto novo @done(25-04-11 23:57)
+        ✔ ao editar nao carrega a data de validade @done(25-04-14 11:16)
+        ✔ botao salvar do formulario de editar nao funciona @done(25-04-11 23:57)
+    Professores:
+        ✔ salvar nova escola nao funciona @done(25-04-12 00:27)
+        ✔ salvar editar nao pode ser testado @done(25-04-12 00:27)
+        ✔ excluir nao pode ser testado @done(25-04-12 00:27)
+
+    Usuarios:
+        ✔ salvar novo usuario nao funciona @done(25-04-14 11:32)
+        ✔ formulario de edicao nao carrega o campo "endereco_de_email" @done(25-04-12 00:37)
+        ✔ salvar edicao nao funciona @done(25-04-12 00:37)

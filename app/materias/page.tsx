@@ -12,7 +12,7 @@ interface Materia {
   id: number
   nome: string
   descricao: string
-  ano_letivo: Date
+  ano_letivo: number
 }
 
 export default function Page() {
@@ -21,7 +21,7 @@ export default function Page() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [nome, setNome] = useState('')
   const [descricao, setDescricao] = useState('')
-  const [ano_letivo, setAnoLetivo] = useState(new Date())
+  const [ano_letivo, setAnoLetivo] = useState(0)
 
   const fetchMaterias = async () => {
     try {
@@ -74,14 +74,14 @@ export default function Page() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">CADASTRO DE ALUNOS</h1>
+      <h1 className="text-2xl font-bold mb-4">CADASTRO DE MATERIAS</h1>
       <button
         onClick={() =>
           handleEdit({
             id: 0,
             nome: '',
             descricao: '',
-            ano_letivo: new Date(),
+            ano_letivo: 0,
           })
         }
         className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500"
@@ -94,7 +94,6 @@ export default function Page() {
             <tr>
               <th className="border px-4 py-2">Nome</th>
               <th className="border px-4 py-2">Descrição</th>
-              <th className="border px-4 py-2">Ano Letivo</th>
               <th className="border px-4 py-2">Ações</th>
             </tr>
           </thead>
@@ -102,8 +101,6 @@ export default function Page() {
             {materias.map((materia) => (
               <tr key={materia.id} className="hover:bg-gray-100">
                 <td className="border px-4 py-2">{materia.nome}</td>
-                <td className="border px-4 py-2">{materia.descricao}</td>
-                <td className="border px-4 py-2">{materia.nome?.toString()}</td>
                 <td className="border px-4 py-2">{materia.descricao}</td>
                 <td className="border px-4 py-2">
                   <button
@@ -145,10 +142,10 @@ export default function Page() {
                 className="w-full p-2 border rounded-md"
               />
               <input
-                type="date"
+                type="number"
                 placeholder="ano_letivo"
                 value={ano_letivo}
-                onChange={(e) => setAnoLetivo(e.target.value)}
+                onChange={(e) => setAnoLetivo(parseInt(e.target.value))}
                 className="w-full p-2 border rounded-md"
               />
 

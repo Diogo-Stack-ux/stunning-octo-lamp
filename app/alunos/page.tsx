@@ -23,13 +23,17 @@ export default function Page() {
   const [nome, setNome] = useState('')
   const [nome_do_pai, setNomeDoPai] = useState('')
   const [nome_da_mae, setNomeDaMae] = useState('')
-  const [data_de_nascimento, setDataDeNascimento] = useState(new Date())
+  const [data_de_nascimento, setDataDeNascimento] = useState('')
   const [cor_da_pele, setCorDaPele] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const fetchAlunos = async () => {
     try {
       const data = await getAlunos()
+      data.map((aluno) => {
+        aluno.data_de_nascimento =
+          aluno.data_de_nascimento?.toISOString().split('T')[0] || ''
+      })
       setAlunos(data)
     } catch (error) {
       console.error('Erro ao buscar alunos:', error)
@@ -101,7 +105,7 @@ export default function Page() {
             nome: '',
             nome_do_pai: '',
             nome_da_mae: '',
-            data_de_nascimento: new Date(),
+            data_de_nascimento: '',
             cor_da_pele: '',
           })
         }
@@ -116,7 +120,6 @@ export default function Page() {
               <th className="border px-4 py-2">Nome</th>
               <th className="border px-4 py-2">Nome do Pai</th>
               <th className="border px-4 py-2">Nome da Mãe</th>
-              <th className="border px-4 py-2">Data de Nascimento</th>
               <th className="border px-4 py-2">Cor da Pele</th>
               <th className="border px-4 py-2">Ações</th>
             </tr>
@@ -127,9 +130,6 @@ export default function Page() {
                 <td className="border px-4 py-2">{aluno.nome}</td>
                 <td className="border px-4 py-2">{aluno.nome_do_pai}</td>
                 <td className="border px-4 py-2">{aluno.nome_da_mae}</td>
-                <td className="border px-4 py-2">
-                  {aluno.data_de_nascimento?.toDateString()}
-                </td>
                 <td className="border px-4 py-2">{aluno.cor_da_pele}</td>
                 <td className="border px-4 py-2">
                   <button
@@ -177,12 +177,17 @@ export default function Page() {
                 onChange={(e) => setNomeDaMae(e.target.value)}
                 className="w-full p-2 border rounded-md"
               />
-              <input
-                type="date"
-                value={data_de_nascimento}
-                onChange={(e) => setDataDeNascimento(e.target.value)}
-                className="w-full p-2 border rounded-md"
-              />
+              <div className="col-span-4">
+                <label className="block text-sm font-medium text-gray-900">
+                  Data de Nascimento
+                </label>
+                <input
+                  type="date"
+                  value={data_de_nascimento}
+                  onChange={(e) => setDataDeNascimento(e.target.value)}
+                  className="w-full rounded-md border-gray-300 px-3 py-1.5"
+                />
+              </div>
               <select
                 value={cor_da_pele}
                 onChange={(e) => setCorDaPele(e.target.value)}

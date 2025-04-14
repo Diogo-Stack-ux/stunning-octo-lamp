@@ -86,7 +86,7 @@ export default function Page() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">CADASTRO DE ALUNOS</h1>
+      <h1 className="text-2xl font-bold mb-4">CADASTRO DE PNEUS</h1>
       <button
         onClick={() =>
           handleEdit({
@@ -109,7 +109,6 @@ export default function Page() {
             <tr>
               <th className="border px-4 py-2">marco</th>
               <th className="border px-4 py-2">Modelo</th>
-              <th className="border px-4 py-2">largura</th>
               <th className="border px-4 py-2">Ações</th>
             </tr>
           </thead>
@@ -117,9 +116,6 @@ export default function Page() {
             {pneus.map((pneu) => (
               <tr key={pneu.id} className="hover:bg-gray-100">
                 <td className="border px-4 py-2">{pneu.marca}</td>
-                <td className="border px-4 py-2">{pneu.modelo}</td>
-                <td className="border px-4 py-2">{pneu.largura}</td>
-                <td className="border px-4 py-2">{pneu.marca?.toString()}</td>
                 <td className="border px-4 py-2">{pneu.modelo}</td>
                 <td className="border px-4 py-2">
                   <button
